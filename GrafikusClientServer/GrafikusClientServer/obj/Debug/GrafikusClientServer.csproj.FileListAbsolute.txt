@@ -1,0 +1,18 @@
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe.config
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.pdb
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csprojResolveAssemblyReference.cache
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Form1.resources
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Properties.Resources.resources
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csproj.GenerateResource.Cache
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.exe
+C:\Users\Asztalos Gergő\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.pdb
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe.config
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.pdb
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csprojResolveAssemblyReference.cache
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Form1.resources
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Properties.Resources.resources
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csproj.GenerateResource.Cache
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.exe
+C:\Users\Geri\Desktop\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.pdb
