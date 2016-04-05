@@ -1,0 +1,57 @@
+\documentclass{thesis-ekf}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\PassOptionsToPackage{defaults=hu-min}{magyar.ldf}
+\usepackage[magyar]{babel}
+\usepackage{graphicx,amsmath,amssymb,amsthm}
+\graphicspath{{./images/}}
+\footnotestyle{rule=fourth}
+
+\newtheorem{tetel}{Tétel}[chapter]
+\newtheorem{lemma}[tetel]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definicio}[tetel]{Definíció}
+\newtheorem{feladat}[tetel]{Feladat}
+\theoremstyle{remark}
+\newtheorem{megjegyzes}[tetel]{Megjegyzés}
+\newtheorem*{megoldas}{Megoldás}
+
+\logo{\includegraphics[width=8cm]{ekf-logo1}}
+\institute{Eszterházy Károly Főiskola\\ Matematikai és Informatikai Intézet}
+\title{Mobil eszköz alkalmazási lehetőségei fizikai kísérletekben}
+\authorcaption{Készítette:}
+\author{Asztalos Gergő\\ Programtervező informatikus}
+\supervisorcaption{Témavezető:}
+\supervisor{Biró Csaba\\ Adjunktus}
+\city{Eger}
+\date{2016}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter*{Bevezetés}
+
+\chapter{Tervezés}
+	Amikor egy projektről beszélünk, számomra az első, és az egyik legfontosabb lépés az, hogy megfelelően megtervezzük a programunkat. Ezen folyamat során fontos megbeszélnünk, hogy milyen lesz a program felépítése, struktúrája, designja. Fontos ezeket még a tervezési fázisban megbeszélni, hisz egy programnál bármit szeretnénk utólag módosítani, sokkal nehezebb lesz a feladatunk, mint az első lépésekben. Célszerű a tervezési fázisban megbeszélteket feljegyezni valamilyen formában. Ilyenkor sokan a rajzoláshoz, íráshoz folyamodnak és ezzel időt és energiát spórolnak maguknak.
+	\par Én a tervezési szakaszt hasonlóan kezdtem el. Elsőként felépítettem a számomra megfelelő struktúrát, mind ezt persze papíron, ceruzát használva. Tudtam, hogy nem csak egy alkalmazásom lesz, hiszen főbb céljaim között szerepelt a számítógép és okos telefon közötti Real-Time adatátviteli\footnote{Valós idejű adatfeldolgozás} kapcsolat kialakítása. Hasznos dolognak bizonyult még, a telefon szenzorainak kihasználása és azok alkalmazása a fizikában. Átgondoltam, hogy külön a telefonon és külön a számítógépen lévő programoknak milyen lenne a kinézete, milyen oldalak, ablakok követnék egymást. Elsőként az okos telefonra való fejlesztésnek kezdtem neki, azon belül is az Activity-k és Layout-ok kialakításába, de ez még csak a könnyebb része az egész programnak. Ezután el kellett gondolkoznom azon is, hogy miként fog kommunikálni az a két eszköz? Milyen szenzorral dolgozzunk? Hogyan vigyük át az adatot úgy, hogy megközelítőleg valós idejű legyen?
+	\par Természetesen az ilyen kérdésekre a válasz legtöbbször akkor derül ki, amikor már elkezdjük magát a programozást, megválaszolásukra pedig ismét csak papírt és tollat kellett ragadnom. A megfelelő adatokat más, segéd programokkal tudtam csak megjeleníteni, hisz az átlag felhasználók számára ezek a szenzor adatok lényegtelenek.Viszont ezekkel dolgozva, már tudtam készíteni diagramot, amellyel szemléltethettem, milyen értékekről is van szó és azokat hogyan tudnám alkalmazni az én projektemben.
+\section{Accelerometer}
+A gyorsulásmérő egy műszer, amely nevéből adódóan gyorsulás mérésére szolgál. A gyorsulást viszont elég nehéz mérni, ezért leginkább a gyorsuláskor fellépő erőt mérjük. Számtalan helyen használják és használhatják: okos telefonokban, digitális fényképezőgépekben, táblagépekben, repülésnél és még sok más helyen.
+
+\subsection{Alszakasz címe}
+
+\chapter{Szerver alkalmazás}
+\section{Visual Studio}
+
+\chapter{Kliens alkalmazás}
+\section{Android Studio}
+
+\chapter{Használati útmutató}
+\section{Ezvalami}
+
+\begin{thebibliography}{1}
+\bibitem{cimke} \textsc{Szerző}: Cím, Kiadó, Hely, évszám.
+https://hu.wikipedia.org/wiki/Gyorsul%C3%A1sm%C3%A9r%C5%91
+\end{thebibliography}
+\end{document}

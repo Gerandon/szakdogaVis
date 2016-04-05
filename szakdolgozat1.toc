@@ -1,0 +1,9 @@
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Tervez\IeC {\'e}s}{4}{chapter.1}
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Accelerometer}{5}{section.1.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}Alszakasz c\IeC {\'\i }me}{5}{subsection.1.1.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Szerver alkalmaz\IeC {\'a}s}{6}{chapter.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Visual Studio}{6}{section.2.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Kliens alkalmaz\IeC {\'a}s}{7}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Android Studio}{7}{section.3.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Haszn\IeC {\'a}lati \IeC {\'u}tmutat\IeC {\'o}}{8}{chapter.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.1}Ezvalami}{8}{section.4.1}
