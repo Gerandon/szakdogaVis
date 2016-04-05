@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="#1E88E5">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <EditText
+            android:id="@+id/addressBox"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:text="192.168."
+            android:hint="IP Address"
+            android:background="#2196F3"
+            android:textColor="#BBDEFB"
+            android:gravity="center"
+            android:inputType="number|numberDecimal"
+            android:digits="0123456789."/>
+        <EditText
+            android:id="@+id/portBox"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="8888"
+            android:hint="Port"
+            android:background="#2196F3"
+            android:textColor="#BBDEFB"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:inputType="number|numberDecimal"
+            android:digits="0123456789."/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/connectButton"
+            android:hint="Connect"
+            android:onClick="connectButtonClicked"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/getText" />
+    </LinearLayout>
+
+</FrameLayout>
