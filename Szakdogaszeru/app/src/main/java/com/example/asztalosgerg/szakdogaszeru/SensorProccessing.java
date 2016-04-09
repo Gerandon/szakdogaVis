@@ -99,6 +99,8 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
                     case "UI": sensorvalue = SensorManager.SENSOR_DELAY_UI;
                         break;
                     case "Fastest":sensorvalue = SensorManager.SENSOR_DELAY_FASTEST;
+                        //Toast.makeText(this), "this is my Toast message!!! =)",
+                          //      Toast.LENGTH_LONG).show();
                         break;
                     case "Normal":sensorvalue=SensorManager.SENSOR_DELAY_NORMAL;
                         break;

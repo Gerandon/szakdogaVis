@@ -26,6 +26,28 @@
 \city{Eger}
 \date{2016}
 
+
+\usepackage[T1]{fontenc}
+\usepackage{inconsolata}
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	escapeinside={(*@}{@*)},
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily
+}
+
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -37,13 +59,55 @@
 	\par Én a tervezési szakaszt hasonlóan kezdtem el. Elsőként felépítettem a számomra megfelelő struktúrát, mind ezt persze papíron, ceruzát használva. Tudtam, hogy nem csak egy alkalmazásom lesz, hiszen főbb céljaim között szerepelt a számítógép és okos telefon közötti Real-Time adatátviteli\footnote{Valós idejű adatfeldolgozás} kapcsolat kialakítása. Hasznos dolognak bizonyult még, a telefon szenzorainak kihasználása és azok alkalmazása a fizikában. Átgondoltam, hogy külön a telefonon és külön a számítógépen lévő programoknak milyen lenne a kinézete, milyen oldalak, ablakok követnék egymást. Elsőként az okos telefonra való fejlesztésnek kezdtem neki, azon belül is az Activity-k és Layout-ok kialakításába, de ez még csak a könnyebb része az egész programnak. Ezután el kellett gondolkoznom azon is, hogy miként fog kommunikálni az a két eszköz? Milyen szenzorral dolgozzunk? Hogyan vigyük át az adatot úgy, hogy megközelítőleg valós idejű legyen?
 	\par Természetesen az ilyen kérdésekre a válasz legtöbbször akkor derül ki, amikor már elkezdjük magát a programozást, megválaszolásukra pedig ismét csak papírt és tollat kellett ragadnom. A megfelelő adatokat más, segéd programokkal tudtam csak megjeleníteni, hisz az átlag felhasználók számára ezek a szenzor adatok lényegtelenek.Viszont ezekkel dolgozva, már tudtam készíteni diagramot, amellyel szemléltethettem, milyen értékekről is van szó és azokat hogyan tudnám alkalmazni az én projektemben.
 \section{Accelerometer}
-A gyorsulásmérő egy műszer, amely nevéből adódóan gyorsulás mérésére szolgál. A gyorsulást viszont elég nehéz mérni, ezért leginkább a gyorsuláskor fellépő erőt mérjük. Számtalan helyen használják és használhatják: okos telefonokban, digitális fényképezőgépekben, táblagépekben, repülésnél és még sok más helyen.
-
-\subsection{Alszakasz címe}
-
+A gyorsulásmérő egy műszer, amely nevéből adódóan gyorsulás mérésére szolgál. A gyorsulást viszont elég nehéz mérni, ezért leginkább a gyorsuláskor fellépő erőt mérjük. Számtalan helyen használják és használhatják: okos telefonokban, digitális fényképezőgépekben, táblagépekben, repülésnél és még sok más helyen. Ezek a szenzorok alkotják a mikromechanikai szenzorok egyik nagy csoportját. A mérési elvek közül a legelterjedtebb a Newton 2. törvénye alapján működő elv, amelynek jellemzője a szeizmikus tömeg:
+\begin{align*}
+F=m\times a
+\end{align*}
+ahol a szenzor az $m$ tömegre ható $F$ erőt méri.
+\subsection{Gyorsulásmérő okostelefonokban}
+Okostelefonokban a gyorsulásmérő (Accelerometer) arra szolgál, hogy a készülék érzékelhesse a különböző mozgásokat, amikhez így feladatokat tudunk párosítani. A leggyakoribb és legelterjedtebb, az átlagos felhasználók által leginkább használt felhasználási módja az, amikor a telefont elforgatva a képernyő is automatikusan áttájolódik, fekvő és álló tájolási mód között váltakozva. Ez viszont (okostelefonokat tekintetbe véve) a legáltalánosabb felhasználási módszer, ezen kívül még számos esetben használhatjuk a gyorsulásmérőnket, így például gesztusok kezelésében\footnote{A telefont megrázva valamilyen irányítást eszközlünk}, de akár játékok irányításában is.
+\subsection{Gyorsulásmérő alkalmazása a fizikában}
+Ahogy a példák is mutatják, számos dologra használhatjuk szenzorunkat, miért ne használnánk tehát fizikai kísérletekben segédeszközként? Amikor ilyen kísérletekről beszélünk, természetesen nem olyan kísérletekre gondolunk, ahol a telefon víz vagy tűz állóságát teszteljük, esetleg a szabadesést vizsgáljuk, de például egy inga használatára kiváltképp alkalmas lehet. Kihasználva a telefonra ható gravitációs erőt, illetve a gyorsulást, már is monitorozni tudjuk a telefonunkat, és használhatjuk segédeszközként.
 \chapter{Szerver alkalmazás}
+Miután nagyjából megterveztem, hogy milyen is lesz a programom, kialakítottam egy drótváz modellt, és fejben már tudom, hogyan fog működni az applikációm, itt volt az ideje, hogy elkészítsem a szerveroldali alkalmazásomat is.
+\par Első, és talán az egyik legfontosabb feladatom az volt, hogy eldöntsem, milyen nyelven fogom elkészíteni. Több nyelv is bekerült a számomra aktuális nyelvek listájába. Felmerült az is, hogy Python lesz a választott nyelv, hiszen a hasonló matematikai vagy fizikai megoldások felettébb optimalizáltak és a futási ideje sem másodlagos.
+\par A választásom mégis csak a C\# nyelvre esett, ennek pedig nem egy oka van. Talán azért is választottam ezt a nyelvet, mert tudtam, hogy az internet adta segítségeket leszámítva is el tudom készíteni az alkalmazásom, hiszen már a főiskolán is ez volt az első nyelv amivel megismerkedtem és ebből adták le a legnagyobb tudásukat az oktatóim is. Külön tantárgy foglalkozott a grafikai rajzolással, megjelenítéssel, s mivel a témámhoz nagyban szükség volt ezekre, így ez csak még egy okot adott arra, hogy ennél a nyelvnél maradjak. Továbbá a fejlesztői környezet nagybani ismerete is megkönnyítette a munkám, hisz nem kellett másikkal megismerkednem. Ez a fejlesztői környezet pedig a Visual Studio volt.
 \section{Visual Studio}
-
+A Visual Studio a Microsoft olyan fejlesztői környezete, mely több nyelvet is tartalmaz mint plédául a Visual Basic, C++, C\# és ezek mellett még a z XML-t\footnote{Extensible Markup Language - Kiterjeszthető jelölő nyelv} is támogatja, ezek a nyelvek pedig mind IDE\footnote{Integrated Development Environment, azaz integrált fejlesztői környezet} fejlesztői környezetet használnak. Különböző Project Template-k közül választhatunk, mint például a Console Application, Windows Form Application, Windows Presentation Foundation. A Visual Studio egy meglehetősen jó fejlesztői környezet, melynek egyszerű és áttekinthető a fájl struktúrája, így könnyebbé és gyorsabbá teszi a munkát a felhasználója számára.A Project Template-ket böngészve sokat tűnődtem azon, hogy melyiket is válasszam, de végül a Windows Form Application-nél maradtam. 
+\par Ezt azért választottam, mert a tervezési folyamatnál már tudtam, hogy létre kell hoznom egy TCP/IP kapcsolatot a telefon és a számítógép között, emellett azt is, hogy valamilyen formában rajzolni szeretnék a formomra, habár azt, hogy pontosan mit, akkor még nem tudtam. Ezt a két dolgot már csak tapasztalatból is tudtam, hogy nem nehéz megvalósítani, pláne ha olyan környezetben próbálom, amiben már dolgoztam, esetleg az adott témával kapcsolatban is.
+\section{TCP/IP kapcsolat}
+A Transmission Control Protocol, azaz TCP, az internet egyik legfőbb részét, az úgymond "gerincét" alkotó TCP/IP protokollcsalád egyik fő protokollja. Ezen protokollcsalád két legfontosabb transzport protokollja a TCP és az UDP\footnote{User Datagram Protocol}. A TCP egy kapcsolatorientált, megbízható protokoll. A kommunikáció megkezdése előtt ki kell építenünk a kapcsolatot, majd ezután megkezdhetük az adatátvitelt. Amennyiben hiba történik, mint például elveszik egy csomag, vagy meghibásodik, esetleg már hibásan érkezik, a TCP saját maga újraindítást kér. Az átvitel úgy történik, hogy az adat, amit szeretnénk átküldeni egy úgynevezett byte-folyam, amit a TCP szétszeparál csomagokra és elküldi. A kapcsolat tehát full-duplex\footnote{Megengedi a kétirányú kapcsolatot, szimultán módon}, továbbá rendelkezik egy olyan szinkronizációs mechanizmussal, ami megakadályozza, hogy az adó elárassza a vevőt. Emellett a TCP figyeli a kapcsolatot és megpróbálja megtippelni a sávszélességét a tórlódásokból, válaszidőből stb., amit később felhasznál az adatsebesség beállításakor.
+\par Az én programomat nézve az okostelefon minősül az adónak és a számítógép a vevőnek. Értelemszerű, hiszen a szenzor adat a telefonról érkezik és azt kell továbbítanunk a vevőnek. Ez úgy történik, hogy a telefon egy IP cím és egy Port szám segítségével kérést küld a szerver oldal felé a kapcsolódásra, amit a már várakozó szerver később fogad. Ezután meg is kezdődik az adatátvitel. Esetünkben, mivel az egész program a RealTime adatátvitelen alapszik, ezért a kommunikáció nyitott, mindaddig, míg azt "erőszakkal" be nem zárjuk.
+\subsection{Adatok feldolgozása}
+Az élő kapcsolat fenntartása annyit jelent, hogy a beérkező adatot azonnal feldolgozzuk és a célunknak megfelelően fel is használjuk, adatról-adatra. A hangsúly azon van, hogy megpróbáljuk abban a pillanatban feldolgozni szerver oldalon az adatot, amikor az előállítódik a kliens oldalon. Természetesen száz százalékosan ez nem teljesíthető, hiszen ez a folyamat elég erőforrás igényes.
+\par A kapcsolat beérkezése után meg is kezdődik az adatok feldolgozása. Ez a feldolgozási folyamat természetesen attól függ, mit szeretnénk csinálni az adatunkkal.
+\begin{lstlisting}
+int port = 8888;
+label5.Invoke(new Action(() => label5.Text = GetLocalIPAddress()));
+TcpListener myListener = new TcpListener(IPAddress.Parse(GetLocalIPAddress()), port);
+myListener.Start();
+label1.Invoke(new Action(() => label1.Text = "Varakozas kliensekre a " + port + " porton."));
+TcpClient connectedClient = myListener.AcceptTcpClient();
+label1.Invoke(new Action(() => label1.Text = "Kliens csatlakozott"));
+\end{lstlisting}
+A csatlakozást követően szükségünk van egy StreamReader-re, ahhoz, hogy a kapcsolódott eszköz által küldött információt meg is tudjuk jeleníteni, vizsgálni.
+Az adatok, azaz a 3 tengely értéke 1 adott sorként érkezik át a kapcsolat folyamán. Ha ezekkel az adatokkal dolgozni is szeretnénk (márpedig szeretnénk), szükségünk lesz arra, hogy azt az 1 sort, szétbontsuk 3, különálló értékre. Így megkapjuk az x, y és z tengelyek értékét.
+\begin{align*}
+-0,10534488 \qquad 9,787497 \qquad-1,091756\qquad Time:0
+\end{align*}
+ A szétbontásuk pedig a következőképp történik:
+ \begin{lstlisting}
+ string s = r.ReadLine();
+ string[] str_array = s.Split(' ');
+ x = double.Parse(str_array[0], CultureInfo.InvariantCulture);
+ y = double.Parse(str_array[1], CultureInfo.InvariantCulture);
+ z = double.Parse(str_array[2], CultureInfo.InvariantCulture);
+ \end{lstlisting}
+Ebben az esetben a(z) $s$ változónk tárolja az átküldött sort, a(z) $str_array$ pedig annak a szétbontott változatát. Így meg is kaptuk a szövegként átküldött sorunkat, változókra szétbontva és megkezdhetjük a feldolgozásukat, beillesztésüket a feladatunkba.
+\pagebreak
+\section{Gyorsulási diagram}
+Most már megvannak az adataink, fel is tudjuk hát dolgozni őket. Első és legfontosabb dolgunk az, hogy létrehozzunk egy diagramot, ami segítségével meg tudjuk jeleníteni (tengelyenként) a telefonunk gyorsulását. Ez már önmagában véve is egy olyan szemléltetés, melyet használhatnánk a fizika tanórákon. Szerencsére van erre egy beépített Tool\footnote{Visual Studioban a felhelyezhető gombokat, mezőket egy ToolBoxban találjuk}, melynek értékeket átadva már el is készíti a megfelelő diagramot. Ezen Tool neve: Chart. Dolgunk nehezedik annyiban, hogy ennek a diagramnak előre definiálnunk kell bizonyos pontokat a megjelenítéshez, viszont bármikor tudunk hozzáadni új pontokat. Ezzel csak annyi a probléma, hogy az új pontokat beszúrja, a többi pont mellé, így viszont bizonyos idő után feltorlódnak az adatok és a vonaldiagramunk elveszti varázsát. 
+\par Erre beépített megoldásunk sajnos nincs, magunknak kell megírnunk a függvényünket úgy, hogy a bent lévő adatok egy része megmaradjon, viszont a régi adatokat kitöröljük. Erre egy olyan megoldást eszközöltem, hogy amennyiben a diagramunk pontjainak száma elér egy előre megadott mennyiséget, a pontokat elmentjük egy listába, a listát megfelezzük, az első részét töröljük a diagram összes elemével együtt, majd a lista második része lesz a diagramunkra ráillesztve. Ezzel azt érjük el, hogy a diagram törlődik, az elemek fele elvész, a másik fele pedig újból beíródik, így a diagramunknál nem lesz torlódás, mégis folyamatosnak látszik a megjelenítés.
 \chapter{Kliens alkalmazás}
 \section{Android Studio}
 
@@ -52,6 +116,6 @@ A gyorsulásmérő egy műszer, amely nevéből adódóan gyorsulás mérésére
 
 \begin{thebibliography}{1}
 \bibitem{cimke} \textsc{Szerző}: Cím, Kiadó, Hely, évszám.
-https://hu.wikipedia.org/wiki/Gyorsul%C3%A1sm%C3%A9r%C5%91
+
 \end{thebibliography}
 \end{document}
