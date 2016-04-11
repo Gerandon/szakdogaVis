@@ -1,22 +1,25 @@
-\select@language {magyar} \contentsline {chapter}{\numberline {1}Tervez\IeC {\'e}s}{4}{chapter.1}
-\select@language {magyar} \contentsline {section}{\numberline {1.1}Accelerometer}{5}{section.1.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}Gyorsul\IeC {\'a}sm\IeC {\'e}r\IeC {\H o} okostelefonokban}{5}{subsection.1.1.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.1.2}Gyorsul\IeC {\'a}sm\IeC {\'e}r\IeC {\H o} alkalmaz\IeC {\'a}sa a fizik\IeC {\'a}ban}{5}{subsection.1.1.2}
-\select@language {magyar} \contentsline {chapter}{\numberline {2}Szerver alkalmaz\IeC {\'a}s}{6}{chapter.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.1}Visual Studio}{6}{section.2.1}
-\select@language {magyar} \contentsline {section}{\numberline {2.2}TCP/IP kapcsolat}{7}{section.2.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Adatok feldolgoz\IeC {\'a}sa}{7}{subsection.2.2.1}
-\select@language {magyar} \contentsline {section}{\numberline {2.3}K\IeC {\'\i }s\IeC {\'e}rletek}{9}{section.2.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.1}Gyorsul\IeC {\'a}s diagram}{9}{subsection.2.3.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Inga}{9}{subsection.2.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.3}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{10}{subsection.2.3.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.4}Egy\IeC {\'e}b alkalmazhat\IeC {\'o} k\IeC {\'\i }s\IeC {\'e}rletek}{10}{subsection.2.3.4}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}Kliens alkalmaz\IeC {\'a}s}{12}{chapter.3}
-\select@language {magyar} \contentsline {section}{\numberline {3.1}Android Studio}{13}{section.3.1}
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Az alkalmaz\IeC {\'a}s}{14}{section.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}AsyncTask}{14}{subsection.3.2.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Low Pass Filter}{15}{subsection.3.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzor adat m\IeC {\'e}r\IeC {\'e}s}{17}{section.3.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Real Time adat\IeC {\'a}tvitel}{17}{subsection.3.3.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Haszn\IeC {\'a}lati \IeC {\'u}tmutat\IeC {\'o}}{19}{chapter.4}
-\select@language {magyar} \contentsline {section}{\numberline {4.1}Ezvalami}{19}{section.4.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Tervez\IeC {\'e}s}{5}{chapter.1}
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Accelerometer}{6}{section.1.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}Gyorsul\IeC {\'a}sm\IeC {\'e}r\IeC {\H o} okostelefonokban}{6}{subsection.1.1.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.2}Gyorsul\IeC {\'a}sm\IeC {\'e}r\IeC {\H o} alkalmaz\IeC {\'a}sa a fizik\IeC {\'a}ban}{6}{subsection.1.1.2}
+\select@language {magyar} \contentsline {section}{\numberline {1.2}A fel\IeC {\"u}let}{6}{section.1.2}
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Szerver alkalmaz\IeC {\'a}s}{8}{chapter.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Visual Studio}{8}{section.2.1}
+\select@language {magyar} \contentsline {section}{\numberline {2.2}TCP/IP kapcsolat}{9}{section.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Adatok feldolgoz\IeC {\'a}sa}{9}{subsection.2.2.1}
+\select@language {magyar} \contentsline {section}{\numberline {2.3}K\IeC {\'\i }s\IeC {\'e}rletek}{11}{section.2.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.1}Gyorsul\IeC {\'a}s diagram}{11}{subsection.2.3.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Inga}{11}{subsection.2.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.3}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{12}{subsection.2.3.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.4}Egy\IeC {\'e}b alkalmazhat\IeC {\'o} k\IeC {\'\i }s\IeC {\'e}rletek}{13}{subsection.2.3.4}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.5}K\IeC {\'\i }s\IeC {\'e}rletek grafikus megjelen\IeC {\'\i }t\IeC {\'e}se}{13}{subsection.2.3.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Kliens alkalmaz\IeC {\'a}s}{15}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Android Studio}{16}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Az alkalmaz\IeC {\'a}s}{17}{section.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}AsyncTask}{17}{subsection.3.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Low Pass Filter}{18}{subsection.3.2.2}
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzor adat m\IeC {\'e}r\IeC {\'e}s}{20}{section.3.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Real Time adat\IeC {\'a}tvitel}{20}{subsection.3.3.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Alkalmaz\IeC {\'a}s bemutat\IeC {\'a}s}{22}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Haszn\IeC {\'a}lati \IeC {\'u}tmutat\IeC {\'o}}{24}{chapter.5}
+\select@language {magyar} \contentsline {section}{\numberline {5.1}Ezvalami}{24}{section.5.1}
