@@ -10,16 +10,15 @@
 \select@language {magyar} \contentsline {section}{\numberline {2.3}K\IeC {\'\i }s\IeC {\'e}rletek}{11}{section.2.3}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.3.1}Gyorsul\IeC {\'a}s diagram}{11}{subsection.2.3.1}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Inga}{11}{subsection.2.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.3}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{12}{subsection.2.3.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.4}Egy\IeC {\'e}b alkalmazhat\IeC {\'o} k\IeC {\'\i }s\IeC {\'e}rletek}{13}{subsection.2.3.4}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.5}K\IeC {\'\i }s\IeC {\'e}rletek grafikus megjelen\IeC {\'\i }t\IeC {\'e}se}{13}{subsection.2.3.5}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}Kliens alkalmaz\IeC {\'a}s}{15}{chapter.3}
-\select@language {magyar} \contentsline {section}{\numberline {3.1}Android Studio}{16}{section.3.1}
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Az alkalmaz\IeC {\'a}s}{17}{section.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}AsyncTask}{17}{subsection.3.2.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Low Pass Filter}{18}{subsection.3.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzor adat m\IeC {\'e}r\IeC {\'e}s}{20}{section.3.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Real Time adat\IeC {\'a}tvitel}{20}{subsection.3.3.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Alkalmaz\IeC {\'a}s bemutat\IeC {\'a}s}{22}{chapter.4}
-\select@language {magyar} \contentsline {chapter}{\numberline {5}Haszn\IeC {\'a}lati \IeC {\'u}tmutat\IeC {\'o}}{24}{chapter.5}
-\select@language {magyar} \contentsline {section}{\numberline {5.1}Ezvalami}{24}{section.5.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.3}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{13}{subsection.2.3.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.4}Egy\IeC {\'e}b alkalmazhat\IeC {\'o} k\IeC {\'\i }s\IeC {\'e}rletek}{14}{subsection.2.3.4}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.5}K\IeC {\'\i }s\IeC {\'e}rletek grafikus megjelen\IeC {\'\i }t\IeC {\'e}se}{14}{subsection.2.3.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Kliens alkalmaz\IeC {\'a}s}{16}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Android Studio}{17}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Az alkalmaz\IeC {\'a}s}{18}{section.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}AsyncTask}{18}{subsection.3.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Low Pass Filter}{19}{subsection.3.2.2}
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzor adat m\IeC {\'e}r\IeC {\'e}s}{21}{section.3.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Real Time adat\IeC {\'a}tvitel}{21}{subsection.3.3.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Alkalmaz\IeC {\'a}s bemutat\IeC {\'a}s}{23}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}\IeC {\"O}sszefoglal\IeC {\'a}s}{25}{chapter.5}

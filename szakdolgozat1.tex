@@ -119,10 +119,20 @@ Ebben az esetben a(z) $s$ változónk tárolja az átküldött sort, a(z) $str_a
 \section{Kísérletek}
 \subsection{Gyorsulás diagram}
 Most már megvannak az adataink, fel is tudjuk hát dolgozni őket. Első és legfontosabb dolgunk az, hogy létrehozzunk egy diagramot, ami segítségével meg tudjuk jeleníteni (tengelyenként) a telefonunk gyorsulását. Ez már önmagában véve is egy olyan szemléltetés, melyet használhatnánk a fizika tanórákon. Szerencsére van erre egy beépített Tool\footnote{Visual Studio-ban a felhelyezhető gombokat, mezőket egy ToolBoxban találjuk}, melynek értékeket átadva már el is készíti a megfelelő diagramot. Ezen Tool neve: Chart. Dolgunk nehezedik annyiban, hogy ennek a diagramnak előre definiálnunk kell bizonyos pontokat a megjelenítéshez, viszont bármikor tudunk hozzáadni új pontokat. Ezzel csak annyi a probléma, hogy az új pontokat beszúrja, a többi pont mellé, így viszont bizonyos idő után feltorlódnak az adatok és a vonaldiagramunk elveszti varázsát. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{grafikon}
+	\caption{Gyorsulás grafikon}\label{grafikon}
+\end{figure}
 \par Erre beépített megoldásunk sajnos nincs, magunknak kell megírnunk a függvényünket úgy, hogy a bent lévő adatok egy része megmaradjon, viszont a régi adatokat kitöröljük. Erre egy olyan megoldást eszközöltem, hogy amennyiben a diagramunk pontjainak száma elér egy előre megadott mennyiséget, a pontokat elmentjük egy listába, a listát megfelezzük, az első részét töröljük a diagram összes elemével együtt, majd a lista második része lesz a diagramunkra ráillesztve. Ezzel azt érjük el, hogy a diagram törlődik, az elemek fele elvész, a másik fele pedig újból beíródik, így a diagramunknál nem lesz torlódás, mégis folyamatosnak látszik a megjelenítés.
 \subsection{Inga}
 Sokszor elgondolkoztam azon, hogy ha már ennyi mindenre képesek a telefonjaink a mai világban, miért ne használnánk őket a Chatelésen és a fénykép készítésen kívül valami másra is, valami hasznosabbra esetleg. Természetesen a telefon legfőbb célja még mindig a telefonálás, de mi lenne, ha például egy inga lemodellezésére tudnánk használni, esetleg fizikai tanórákon?
 \par Számtalan internetes fórumot és hasonló oldalt átnéztem, de sehol nem találtam olyan megoldást, amelyben a telefon valamelyik szenzorát úgy használják ki, hogy az valós időben monitorozva legyen esetleg egy számítógépen is, kirajzolva azon az egyes fizikai adatait az inga mozgásnak, vagy ha esetleg volt is, nem valós idejű. Elkezdtem gondolkodni, hogyan is lehetne megoldani, ezt a fajta monitorozást. Az első dolog ami eszembe jutott, hogy megvizsgáljam, milyen adatokat kapunk, egy-egy mérés során? Nos, igaz hogy a gyorsulásmérőt nem feltétlenül erre találták ki, de az adatok olyan bíztatóak voltak, hogy nyugodtan lehetett velük tervezni. Ez után már csak az jött, hogy hogyan használjuk fel ezeket az adatokat?
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{inga}
+	\caption{Inga}\label{inga}
+\end{figure}
 \par A megoldás az lett, hogy figyelembe véve az ablak méretét (magasság/szélesség), amire rajzolni szeretnénk (tehát megjeleníteni az ingánkat) és az adatokat összevetve, arra jutottam, hogy a telefon mért tengelyadatait, a képernyőre vetítve akár még megfelelő megoldást is kaphatok. A szenzor adatok viszont nem egész értékek, hanem valós számok, ellenben a képernyő szélesség vagy magasságával, hiszen azok pixelszámok, amik minden esetben egészek. Át kellett tehát konvertálni a szenzoradatunkat egész számmá, kerekítve azt. Ennek eredménye pedig az lett, hogy a telefon inga-mozgása már lekövethető lett a képernyőn is. 
  \begin{lstlisting}
 float xPoint = Convert.ToSingle(Nx) + 500;
@@ -141,7 +151,12 @@ A harmonikus rezgőmozgásról akkor beszélünk, ha egy testet az egyensúlyi h
 	\item Csillapítatlan rezgőmozgás: Időben állandó a maximális kitérés (idealizált eset).
 	\item Csillapított rezgőmozgás: A maximális kitérés időben csökken.
 \end{enumerate}
-\par Ha egy kicsit jobban bele szeretnénk mélyülni a fizikába, megvizsgálhatjuk az idő szinuszos függvényét is. Ebben az esetben, ha egy rugóra függesztett test rezgését vizsgáljuk, és azonos időközönként megfigyeljük a kitérést, akkor azt tapasztaljuk, hogy a kitérés az idő szinuszos függvénye lesz. 
+\par Ha egy kicsit jobban bele szeretnénk mélyülni a fizikába, megvizsgálhatjuk az idő szinuszos függvényét is. Ebben az esetben, ha egy rugóra függesztett test rezgését vizsgáljuk, és azonos időközönként megfigyeljük a kitérést, akkor azt tapasztaljuk, hogy a kitérés az idő szinuszos függvénye lesz.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{harmonikus}
+	\caption{Harmonikus rezgőmozgás}\label{harmonikus}
+\end{figure}
 \par A tervezési szakaszban, az ingán gondolkodva, eszembe juttattak még egy kísérletet, ami hasonló elven működik és szemléltetésnek se a legrosszabb dolog, ez pedig a Harmonikus Rezgőmozgás. A gyorsuló mozgást minden irányból, minden tengelyen tudjuk mérni. Rezgő mozgásnál azonban csak egy adott tengelyre van szükségünk, mégpedig az Y tengelyre. Ennél a kísérletnél biztos hogy mindig ezt a tengelyt fogjuk figyelni, hiszen biztos hogy a telefon állított pozícióban lesz és az is biztos hogy mi csak a le-fel mozgását fogjuk figyelembe venni.  Tehát az olyan rezgőmozgást, ahol teljesül, hogy a kitérés az idő szinuszos függvénye harmonikus rezgőmozgásnak nevezzük.
  \begin{lstlisting}
 g.DrawLine(515,40,515,Convert.ToSingle(Ny)+100);
@@ -313,13 +328,30 @@ printWriter.println(linearAcceleration[0]+" "+ linearAcceleration[1]+" "+linearA
 \par Ebben az esetben, az adatok szerverre való megérkezésekor hasonló lesz a dolgunk, mint akkor, amikor az eszközön mért adatot szeretnénk kiszedni. Ezek után az eszközünknek már nincs más dolga, mint ismételgetni önmagát, addig amíg a kapcsolat meg nem szűnik, az alkalmazást be nem zárjuk, vagy valami hiba nem következik.
 \chapter{Alkalmazás bemutatás}
 Az alkalmazást telefonos részről már akkor is tudjuk használni, ha még nem csatlakoztunk rá a szerverre. Ekkor persze csak a szenzor adatokat tudjuk megtekinteni a telefonon, de már ez is egy felhasználható dolog, valamely szempontból. Mindenek előtt ahhoz hogy teljes mértékben használni tudjuk az alkalmazást, szükséges, hogy a klienssel rákapcsolódjunk a szerverre. Ilyenkor először is szerver oldalon le kell kérnünk a saját IP címünket, és meg kell adnunk egy Portot, amin keresztül majd csatlakozni szeretnénk. Ekkor csak annyi a dolgunk, mint hogy megnyomjuk a kapcsolódás gombot az alkalmazáson, és az automatikusan lekéri az IP címet. Ez után elő kell vennünk a kliens alkalmazást. A kliens layout-on szereplő EditText-ekbe be kell írnunk a megfelelő adatokat. Itt szintén egy IP címet és egy Port számot várunk el, mégpedig azokat, amiket a szerver oldal már lekért magának. Szükséges továbbá az, hogy a kliens és szerver is egyazon WiFi-re legyen rákapcsolódva.
-\par Abban az esetben, ha kliens oldalon esetleg elgépeljük az IP címet vagy Port számot, az alkalmazás még tovább enged, hogy megtekinthessük a szenzor adatokat, viszont az alkalmazás figyelmeztet, hogy "Nincs kapcsolat", tehát vagy nem megfelelő helyre kapcsolódtunk, vagy nincs internet elérés. Ezt az Activity alján egy egyszerű Label-be írjuk ki, hogy figyelmeztessük a felhasználót. A kapcsolódás gombra kattintva (a kliens oldalon), az alkalmazás leellenőrzi hogy képes-e kapcsolódni, van-e olyan "elérési út", azaz IP cím amire kapcsolódni szeretnénk. Ezt a folyamatot a felhasználó nem látja, csak a későbbiek folyamán kap egy visszajelzést, hogy sikerült-e kapcsolódni vagy sem.
+\par Abban az esetben, ha kliens oldalon esetleg elgépeljük az IP címet vagy Port számot, az alkalmazás még tovább enged, hogy megtekinthessük a szenzor adatokat, viszont az alkalmazás figyelmeztet, hogy "Nincs kapcsolat", tehát vagy nem megfelelő helyre kapcsolódtunk, vagy nincs internet elérés. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=5cm]{nincskapcsolat}
+	\caption{Nincs elérhető kapcsolat}\label{nincskapcsolat}
+\end{figure}
+
+Ezt az Activity alján egy egyszerű Label-be írjuk ki, hogy figyelmeztessük a felhasználót. A kapcsolódás gombra kattintva (a kliens oldalon), az alkalmazás leellenőrzi hogy képes-e kapcsolódni, van-e olyan "elérési út", azaz IP cím amire kapcsolódni szeretnénk. Ezt a folyamatot a felhasználó nem látja, csak a későbbiek folyamán kap egy visszajelzést, hogy sikerült-e kapcsolódni vagy sem.
 \par Abban az esetben, ha a szerver oldalon a kapcsolódást anélkül kíséreljük meg, hogy nincs elérhető internet kapcsolat, az alkalmazás erről is figyelmeztetést küld.
 \par A kapcsolódást követően megkezdődik a kommunikáció. Ilyenkor a kliens elkezdi küldeni a szenzor adatokat a szerver felé. Ilyenkor már használhatóvá válnak a form-ra felhelyezett eszközök. Megkezdhetünk egy kísérletet. A kliens oldalon elérhető Switch segítségével az adatokat tudjuk megváltoztatni. Vannak esetek, amikor szükségünk van szűrésre, de vannak olyanok, amikor nem. Ez a lehetőség erre ad választási módot. Ezen felül szerepel még három RadioButton. Ezek arra hivatottak hogy a szenzor gyorsaságát tudjuk beállítani. Ez azért jó, mert ha például az ingáról beszélünk, fontos, hogy minél több adatot kapjunk meg, amiből dolgozni tud a szerver oldal. Minél kevesebb ez az adat, annál pontatlanabb eredményt kapunk.
 \par A szerver oldalra visszatérve, a lehetőségeink tárháza elég nagy. A gyorsulás diagramon lehetőségünk van választani, hogy mely tengelyek gyorsulását szeretnénk látni. E mellett arra is van lehetőségünk, hogy a mobiltelefon aktuális pozícióját lementsük. Ez olyan kísérleteknél jöhet jól, ahol a kezdőállapottól függ a kísérlet végkimenetele.
 \par A szenzor adatok mellett a klienstől érkezik egy negyedik adat is, ez pedig az idő. Az idő, olyan értelemben, hogy az első küldött adattól számítva mennyi idő telik el. Ez fontos lehet például abban az esetben ha sebességet, vagy hosszt szeretnénk kiszámítani.
 \par Lehetőségünk van még továbbá arra is, hogy egy adott kísérlet során lementsük az adatokat. Ez a későbbi munkánkat tudja elősegíteni. Esetleg ha szeretnénk a későbbiekben felhasználni a kísérlet adatait, akkor ezek az adatok eltárolódnak egy TXT file-ba és a későbbiekben fel tudjuk azt használni.
 \chapter{Összefoglalás}
+Befejezés képen szeretném összegezni az előzőleg leírtakat. Ehhez elevenítsük fel, az eredetileg az összefoglalásban megfogalmazott célokat.
+\begin{quote}
+	\it ,, olyan Android alapú kliens applikáció, amely kapcsolatot tart egy szerveroldali alkalmazással. Ezeket a szenzor adatokat fizikai kísérletek mevalósítására, szemléltetésére használhatjuk fel, így a telefon egyfajta segédeszközzé válik."
+\end{quote}
+Ennek megfelelően a Visual Studio segítségével elkészítettem a szerveroldalt, amely tartja a kapcsolatot a mobil klienssel. Elégedett vagyok és sok tapasztalatot szereztem ezen fejlesztői környezet használatával, mivel könnyedén el tudtam készíteni a szenzoradat feldolgozó rendszert.
+\par A szenzoradatok megértéséhez és azok megjelenítéséhez kutatnom kellett, és új dolgokat kellett megtanulnom, így az ismereteimet is bővíteni tudtam. Ez leginkább a diagram megjelenítésénél látszik igazán, hisz ott egy olyan beépített eszközt használtam, amivel azelőtt még nem volt dolgom.
+\par Azon kívül, hogy a kész alkalmazás már használható, arra a célra amire ki lett találva, el kellett gondolkodnom a további fejlesztési lehetőségen is. Ez a téma, amit az első oldal óta boncolgattam számtalan irányból megközelíthető a tovább fejlesztést tekintve.
+\par Az első és legfontosabb dolog ami a bővítést említve eszembe jutna, az a fizikai kísérletekre vonatkozik. A keretrendszer "rugalmasságának" köszönhetően ezen kísérletek megvalósítása csak a fantáziánkon múlik. Lényegében ha a telefont egy szimpla segédeszköznek tekintenénk, mint (a példa kedvéért) akár egy labdát, akkor kapcsolatot létesítve le tudnánk szűrni az adatokat, amelyek a kísérlet során történnek anélkül, hogy a látottak alapján megtippelnénk azokat.
+\par Megközelíthetjük a fejlesztés ezen szakaszát szenzor oldalról is. Jelenleg az applikáció egyetlen szenzort használ, a gyorsulásmérőt. Mint már mondtam, ezt azért választottam, mert ez a szenzor található meg a telefonokban a leggyakrabban. Másrészt viszont, van még pár szenzor, amellyel más irányból is megközelíthetnénk ezeket a kísérletezéseket. Ilyen például a fényszenzor is. Tegyük fel hogy valaki fénytani kísérleteket szeretne végrehajtani a telefon segítségével. Erre is van alkalmas szenzorunk, amellyel ezt akár meg is valósíthatjuk.
+\par Az összegzés befejeztével végül de nem utolsó sorban szeretném megköszönni a témavezető tanáromnak a segítséget és a támogatást, valamint azoknak, akik támogattak és segítettek ha kérdésem volt.
 
 \begin{thebibliography}{1}
 \bibitem{cimke} \textsc{Gyorsulásmérő}:\\\url{https://hu.wikipedia.org/wiki/Gyorsulás}
