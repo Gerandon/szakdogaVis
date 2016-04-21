@@ -25,6 +25,8 @@ namespace GrafikusClientServer
         public Form1()
         {
             InitializeComponent();
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             t = new Thread(doThisAllTime);
         }
         int counter = 1;
@@ -41,10 +43,8 @@ namespace GrafikusClientServer
         long lastTime;
         //Hány adatot tettünk már ki a diagramra
         int countOfCharts = 0;
-        //Ezekbe a listákba mentődik a már diagramon megjelenített adat
-        List<double> fullChartListX = new List<double>();
-        List<double> fullChartListY = new List<double>();
-        List<double> fullChartListZ = new List<double>();
+        //Beérkező adatok tárolása
+        InputDataHandler inputdatahandler = new InputDataHandler(50,"X tengely","Y tengely","Z tengely");
         /// <summary>
         /// Kapcsolódás során az új szál indítja el
         /// Ez végzi a legfontosabb műveleteket
@@ -107,7 +107,7 @@ namespace GrafikusClientServer
 
                     counter++;
                 }
-                catch(Exception e){MessageBox.Show(e.ToString()); stopit = true; }
+                catch(Exception e){/*MessageBox.Show(e.ToString());*/ stopit = true; }
             }
             sw.Close();
             myListener.Stop();
@@ -130,47 +130,45 @@ namespace GrafikusClientServer
         /// <param name="z">Z tengely értéke</param>
         public void chartDrawing(double x, double y, double z)
         {
-            chart1.Invoke(new Action(() => chart1.Series["X tengely"].Points.AddXY("X tengely", x)));
-            chart1.Invoke(new Action(() => chart1.Series["Y tengely"].Points.AddXY("Y tengely", y)));
-            chart1.Invoke(new Action(() => chart1.Series["Z tengely"].Points.AddXY("Z tengely", z)));
-            //A kirajzolt értékeket folyamatosan töltjük egy listába, a későbbi visszaállításért
-            fullChartListX.Add(x);
-            fullChartListY.Add(y);
-            fullChartListZ.Add(z);
-            //100 kirajzolt elemnél "töröljük" a chart felét, így nem torlódnak fel az adatok
-            if (countOfCharts >= 100)
+            chart1.Invoke(new Action(() => DrawingControl.SuspendDrawing(chart1)));
+            inputdatahandler.reciveData("X tengely",x);
+            inputdatahandler.reciveData("Y tengely", y);
+            inputdatahandler.reciveData("Z tengely", z);
+            double[] xdata = inputdatahandler.getAxisData("X tengely");
+            double[] ydata = inputdatahandler.getAxisData("Y tengely");
+            double[] zdata = inputdatahandler.getAxisData("Z tengely");
+            chart1.Invoke(new Action(() => chart1.Series["X tengely"].Points.Clear()));
+            chart1.Invoke(new Action(() => chart1.Series["Y tengely"].Points.Clear()));
+            chart1.Invoke(new Action(() => chart1.Series["Z tengely"].Points.Clear()));
+            for (int i = 0; i < xdata.Length; i++)
             {
-                chart1.Invoke(new Action(() => chart1.Series.Clear()));
-                chart1.Invoke(new Action(() => chart1.Series.Add("X tengely").ChartType=SeriesChartType.Line)); //X tengely visszaállítása vonal typusra
-                chart1.Invoke(new Action(() => chart1.Series["X tengely"].BorderWidth = 2)); //vonal default = 1, átállít 2-re
-                chart1.Invoke(new Action(() => chart1.Series.Add("Y tengely").ChartType = SeriesChartType.Line));
-                chart1.Invoke(new Action(() => chart1.Series["Y tengely"].BorderWidth = 2));
-                chart1.Invoke(new Action(() => chart1.Series.Add("Z tengely").ChartType = SeriesChartType.Line));
-                chart1.Invoke(new Action(() => chart1.Series["Z tengely"].BorderWidth = 2));
-                chartReFill(fullChartListX, "X tengely");
-                chartReFill(fullChartListY, "Y tengely");
-                chartReFill(fullChartListZ, "Z tengely");
-                countOfCharts = 50;
+                chart1.Invoke(new Action(() => chart1.Series["X tengely"].Points.AddXY("X tengely", xdata[i])));
+                chart1.Invoke(new Action(() => chart1.Series["Y tengely"].Points.AddXY("Y tengely", ydata[i])));
+                chart1.Invoke(new Action(() => chart1.Series["Z tengely"].Points.AddXY("Z tengely", zdata[i])));
             }
-        }
-        /// <summary>
-        /// Újra feltöltés
-        /// </summary>
-        /// <param name="teng">A kapott listát (tengelyt) adjuk át</param>
-        /// <param name="serie">A tengely megnevezése</param>
-        public void chartReFill(List<double> teng, string serie)
-        {
-            for (int i = teng.Count/2; i < teng.Count; i++)
-            {
-                chart1.Invoke(new Action(() => chart1.Series[serie].Points.AddXY(serie, teng[i])));
-            }
+            chart1.Invoke(new Action(() => chart1.ChartAreas[0].AxisY.Minimum = -20));
+            chart1.Invoke(new Action(() => chart1.ChartAreas[0].AxisY.Maximum = 20));
+            chart1.Invoke(new Action(() => DrawingControl.ResumeDrawing(chart1)));
+            chart1.Invoke(new Action(() => chart1.Invalidate()));
+            chart1.Invoke(new Action(() => chart1.Update()));
+
             ifChecked(xVisible, "X tengely");
             ifChecked(yVisible, "Y tengely");
             ifChecked(zVisible, "Z tengely");
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            t.Start();
+            
+            switch(button1.Text)
+            {
+                case "Kapcsolódás": t.Start();button1.Text = "Szétkapcsolás";
+                    break;
+                case "Szétkapcsolás":t.Abort(); button1.Text = "Újrakapcsolódás";
+                    break;
+                case "Újrakapcsolódás":t = new Thread(doThisAllTime);t.Start(); button1.Text = "Szétkapcsolás";
+                    break;
+            }
         }
         /// <summary>
         /// Minden hálózatváltásnál változhat az IP, ezért ezt le kell kérnünk

@@ -177,7 +177,7 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
         } catch (IOException e) {
             e.printStackTrace();
         }catch (Exception e){
-            textResponse.setText("Nincs elérhető szerver oldali kapcsolat\nIndítsa újra a programot!");
+            textResponse.setText("");
         }
     }
     @Override

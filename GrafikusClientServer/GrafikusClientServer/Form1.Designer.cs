@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -121,7 +121,7 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 123);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Sensor data";
+            this.groupBox1.Text = "Szenzor adat";
             // 
             // zVisible
             // 
@@ -213,9 +213,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(144, 290);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(30, 13);
+            this.label9.Size = new System.Drawing.Size(22, 13);
             this.label9.TabIndex = 10;
-            this.label9.Text = "Time";
+            this.label9.Text = "Idő";
             // 
             // saveAct
             // 
@@ -232,46 +232,47 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(12, 286);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(109, 13);
+            this.label10.Size = new System.Drawing.Size(101, 13);
             this.label10.TabIndex = 12;
-            this.label10.Text = "Saved actual position";
+            this.label10.Text = "<Elmentett pozíció>";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(144, 307);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(84, 13);
+            this.label11.Size = new System.Drawing.Size(95, 13);
             this.label11.TabIndex = 13;
-            this.label11.Text = "Time in seconds";
+            this.label11.Text = "Idő másodpercben";
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(239, 5);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(239, 17);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Legend = "Legend1";
-            series4.Name = "X tengely";
-            series5.BorderWidth = 2;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Legend = "Legend1";
-            series5.Name = "Y tengely";
-            series6.BorderWidth = 2;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Z tengely";
-            this.chart1.Series.Add(series4);
-            this.chart1.Series.Add(series5);
-            this.chart1.Series.Add(series6);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "X tengely";
+            series2.BorderWidth = 2;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Y tengely";
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Z tengely";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(929, 287);
             this.chart1.TabIndex = 14;
             this.chart1.Text = "Diagram";
@@ -326,8 +327,10 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "GerInga";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
