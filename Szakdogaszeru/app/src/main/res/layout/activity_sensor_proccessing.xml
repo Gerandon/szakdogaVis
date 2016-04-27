@@ -64,14 +64,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:textOff="Ki"
+            android:textOn="Be"
+            android:id="@+id/toggleButton"/>
+
         <Switch
             android:layout_width="wrap_content"
-            android:layout_height="185dp"
+            android:layout_height="203dp"
             android:textOn="LPF ON"
             android:textOff="LPF OFF"
             android:id="@+id/switch1"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="69dp"
@@ -92,11 +102,6 @@
                 android:layout_height="wrap_content"
                 android:text="Fastest"
                 android:id="@+id/radioButton2" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Normal"
-                android:id="@+id/radioButton3" />
         </RadioGroup>
     </LinearLayout>
 

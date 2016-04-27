@@ -1,6 +1,7 @@
 package com.example.asztalosgerg.szakdogaszeru;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -70,24 +71,26 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
     String radiovalue;
     Integer sensorvalue;
 
+    ToggleButton tog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_proccessing);
         //Hide title bar
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        tog = (ToggleButton)findViewById(R.id.toggleButton);
         lpf = (Switch)findViewById(R.id.switch1);
         lpf.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
                                           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-                                              if(isChecked){
-                                                  lpfOnOrOff=true;
-                                              }
-                                              else{
-                                                  lpfOnOrOff=false;
-                                              }
-                                          }
-                                       });
+              if(isChecked){
+                  lpfOnOrOff=true;
+              }
+              else{
+                  lpfOnOrOff=false;
+              }
+          }
+        });
         sensorvalue = SensorManager.SENSOR_DELAY_UI;
         radi = (RadioGroup)findViewById(R.id.radioGr);
         radi.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -120,53 +123,99 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
 
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sm.registerListener(this, accelerometer,sensorvalue);//UI
+        sm.registerListener(this, accelerometer,30000);//UI, sensorvalue
 
-        WifiManager myWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        tog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    isToggleOn = true;
+                } else {
+                    isToggleOn = false;
+                }
+            }
+        });
 
-        WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
+    }
+    boolean isToggleOn = false;
+    ///Változók a pozíció számításhoz
+    static final float NS2S = 1.0f / 1000000000.0f;
+    float[] last_values = null;
+    float[] velocity = null;
+    float[] position = null;
+    long last_timestamp = 0;
+    public float[] posOrVelocity(SensorEvent event,String choose)
+    {
+        if(last_values != null){
+            float dt = (event.timestamp - last_timestamp) * NS2S;
 
-
-
-
+            for(int index = 0; index < 3;++index){
+                velocity[index] += (event.values[index] + last_values[index])/2 * dt;
+                position[index] += velocity[index] * dt;
+            }
+        }
+        else{
+            last_values = new float[3];
+            velocity = new float[3];
+            position = new float[3];
+            velocity[0] = velocity[1] = velocity[2] = 0f;
+            position[0] = position[1] = position[2] = 0f;
+        }
+        System.arraycopy(event.values, 0, last_values, 0, 3);
+        last_timestamp = event.timestamp;
+        switch(choose) {
+            case "position":
+                return position;
+            case "velocity":
+                return velocity;
+        }
+        return null; //idáig nem jut el
     }
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(lpfOnOrOff==true){
-            //low-pass filter
-            timestamp=System.nanoTime();
-            //Megkeressük a frissítések közötti periódust
-            //Átalakítjuk nano-másodpercről másodperccé
-            dt=1 / (count / ((timestamp - timestampOld) / 1000000000.0f));
-            count++;
-            alpha = 0.8F;//timeConstant / (timeConstant + dt);
+        if(isToggleOn){
+
+            alpha = .8F;//timeConstant / (timeConstant + dt);
             gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
             gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
             gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-
-            /*
-            linearAcceleration[0] = event.values[0] - gravity[0];
-            linearAcceleration[1] = event.values[1] - gravity[1];
-            linearAcceleration[2] = event.values[2] - gravity[2];
-            */
-            //-----Low pass filter
-            linearAcceleration[0] = event.values[1]-gravity[1];//Y tengelyt küldjük üresen
-            linearAcceleration[1] = event.values[1];//y tengelyt küldjük szűrve
-            linearAcceleration[2] = event.values[2] - gravity[2];
-
-            startTime = System.currentTimeMillis();
+            linearAcceleration[0] = posOrVelocity(event,"velocity")[0]-gravity[0];
+            linearAcceleration[1] = posOrVelocity(event,"velocity")[1]-gravity[1];
+            linearAcceleration[2] = posOrVelocity(event,"velocity")[2]-gravity[2];
             xText.setText("X: "+linearAcceleration[0]);
             yText.setText("Y: "+linearAcceleration[1]);
-            zText.setText("Z: " + linearAcceleration[2]);
+            zText.setText("Z: "+linearAcceleration[2]);
         }
         else{
-            linearAcceleration[0] = event.values[0];
-            linearAcceleration[1] = event.values[1];
-            linearAcceleration[2] = event.values[2];
-            startTime = -1;
-            xText.setText("X: "+event.values[0]);
-            yText.setText("Y: "+event.values[1]);
-            zText.setText("Z: " + event.values[2]);
+            if(lpfOnOrOff==true){
+                //low-pass filter
+                timestamp=System.nanoTime();
+                //Megkeressük a frissítések közötti periódust
+                //Átalakítjuk nano-másodpercről másodperccé
+                dt=1 / (count / ((timestamp - timestampOld) / 1000000000.0f));
+                count++;
+                alpha = 0.8F;//timeConstant / (timeConstant + dt);
+                gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+                gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+                gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+                //-----Low pass filter
+                linearAcceleration[0] = event.values[1]-gravity[1];//Y tengelyt küldjük üresen
+                linearAcceleration[1] = event.values[1];//y tengelyt küldjük szűrve
+                linearAcceleration[2] = event.values[2] - gravity[2];
+
+                startTime = System.currentTimeMillis();
+                xText.setText("X: "+linearAcceleration[0]);
+                yText.setText("Y: "+linearAcceleration[1]);
+                zText.setText("Z: " + linearAcceleration[2]);
+            }
+            else{
+                linearAcceleration[0] = event.values[0];
+                linearAcceleration[1] = event.values[1];
+                linearAcceleration[2] = event.values[2];
+                startTime = -1;
+                xText.setText("X: "+event.values[0]);
+                yText.setText("Y: "+event.values[1]);
+                zText.setText("Z: " + event.values[2]);
+            }
         }
 
 
