@@ -18,7 +18,7 @@
 \select@language {magyar} \contentsline {section}{\numberline {3.2}Az alkalmaz\IeC {\'a}s}{18}{section.3.2}
 \select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}AsyncTask}{18}{subsection.3.2.1}
 \select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Low Pass Filter}{19}{subsection.3.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzor adat m\IeC {\'e}r\IeC {\'e}s}{21}{section.3.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Szenzoradat m\IeC {\'e}r\IeC {\'e}s}{21}{section.3.3}
 \select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Real Time adat\IeC {\'a}tvitel}{21}{subsection.3.3.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Alkalmaz\IeC {\'a}s bemutat\IeC {\'a}s}{23}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Alkalmaz\IeC {\'a}s bemutat\IeC {\'a}sa}{23}{chapter.4}
 \select@language {magyar} \contentsline {chapter}{\numberline {5}\IeC {\"O}sszefoglal\IeC {\'a}s}{25}{chapter.5}
