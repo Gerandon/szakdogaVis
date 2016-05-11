@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -56,6 +56,8 @@
             this.withGraph = new System.Windows.Forms.CheckBox();
             this.circle = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.egyenesVonalu = new System.Windows.Forms.RadioButton();
+            this.stopper_button = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
@@ -203,7 +205,7 @@
             // saveData
             // 
             this.saveData.AutoSize = true;
-            this.saveData.Location = new System.Drawing.Point(12, 259);
+            this.saveData.Location = new System.Drawing.Point(12, 311);
             this.saveData.Name = "saveData";
             this.saveData.Size = new System.Drawing.Size(103, 17);
             this.saveData.TabIndex = 10;
@@ -212,7 +214,7 @@
             // 
             // saveAct
             // 
-            this.saveAct.Location = new System.Drawing.Point(12, 282);
+            this.saveAct.Location = new System.Drawing.Point(12, 334);
             this.saveAct.Name = "saveAct";
             this.saveAct.Size = new System.Drawing.Size(200, 23);
             this.saveAct.TabIndex = 11;
@@ -223,7 +225,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 308);
+            this.label10.Location = new System.Drawing.Point(12, 360);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(101, 13);
             this.label10.TabIndex = 12;
@@ -231,32 +233,32 @@
             // 
             // chart1
             // 
-            chartArea4.AxisX.LabelStyle.Enabled = false;
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(218, 18);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series10.BorderWidth = 2;
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series10.Legend = "Legend1";
-            series10.Name = "X tengely";
-            series11.BorderWidth = 2;
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series11.Legend = "Legend1";
-            series11.Name = "Y tengely";
-            series12.BorderWidth = 2;
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series12.Legend = "Legend1";
-            series12.Name = "Z tengely";
-            this.chart1.Series.Add(series10);
-            this.chart1.Series.Add(series11);
-            this.chart1.Series.Add(series12);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "X tengely";
+            series2.BorderWidth = 2;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Y tengely";
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Z tengely";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(950, 287);
             this.chart1.TabIndex = 14;
             this.chart1.Text = "Diagram";
@@ -322,12 +324,34 @@
             this.label9.Size = new System.Drawing.Size(0, 20);
             this.label9.TabIndex = 20;
             // 
+            // egyenesVonalu
+            // 
+            this.egyenesVonalu.AutoSize = true;
+            this.egyenesVonalu.Location = new System.Drawing.Point(12, 259);
+            this.egyenesVonalu.Name = "egyenesVonalu";
+            this.egyenesVonalu.Size = new System.Drawing.Size(124, 17);
+            this.egyenesVonalu.TabIndex = 21;
+            this.egyenesVonalu.Text = "Egyenes Vonalú E.M";
+            this.egyenesVonalu.UseVisualStyleBackColor = true;
+            // 
+            // stopper_button
+            // 
+            this.stopper_button.Location = new System.Drawing.Point(31, 283);
+            this.stopper_button.Name = "stopper_button";
+            this.stopper_button.Size = new System.Drawing.Size(181, 23);
+            this.stopper_button.TabIndex = 22;
+            this.stopper_button.Text = "Stopper indítása";
+            this.stopper_button.UseVisualStyleBackColor = true;
+            this.stopper_button.Click += new System.EventHandler(this.stopper_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1180, 336);
+            this.ClientSize = new System.Drawing.Size(1180, 413);
+            this.Controls.Add(this.stopper_button);
+            this.Controls.Add(this.egyenesVonalu);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.circle);
             this.Controls.Add(this.withGraph);
@@ -380,6 +404,8 @@
         private System.Windows.Forms.CheckBox withGraph;
         private System.Windows.Forms.CheckBox circle;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.RadioButton egyenesVonalu;
+        private System.Windows.Forms.Button stopper_button;
     }
 }
 

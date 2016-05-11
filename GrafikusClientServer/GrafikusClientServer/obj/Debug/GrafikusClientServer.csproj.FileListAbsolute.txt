@@ -25,3 +25,12 @@ C:\Users\Geri\Desktop\SzakdogTeljes\szakdogaVis\GrafikusClientServer\GrafikusCli
 C:\Users\Geri\Desktop\SzakdogTeljes\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csproj.GenerateResource.Cache
 C:\Users\Geri\Desktop\SzakdogTeljes\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.exe
 C:\Users\Geri\Desktop\SzakdogTeljes\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.pdb
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe.config
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.exe
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\bin\Debug\GrafikusClientServer.pdb
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csprojResolveAssemblyReference.cache
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Form1.resources
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.Properties.Resources.resources
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.csproj.GenerateResource.Cache
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.exe
+C:\Users\Geri\Desktop\Program\szakdogaVis\GrafikusClientServer\GrafikusClientServer\obj\Debug\GrafikusClientServer.pdb

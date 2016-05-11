@@ -10,12 +10,15 @@ using System.Net.Sockets;
 using System.Globalization;
 using System.Drawing.Drawing2D;
 using System.Threading;
+using System.Diagnostics;
 
 namespace GrafikusClientServer
 {
     public partial class Form1 : Form
     {
         Thread t;
+        long duration;
+        Stopwatch watch = new Stopwatch();
         public Form1()
         {
             InitializeComponent();
@@ -284,6 +287,8 @@ namespace GrafikusClientServer
             }
             else if (radioButton3.Checked)
             {
+                
+
                 label9.Invoke(new Action(() => label9.Visible = true));
                 withGraph.Invoke(new Action(() => withGraph.Enabled = true));
                 if (withGraph.Checked)
@@ -305,7 +310,21 @@ namespace GrafikusClientServer
                 drawSpring(y);
                 return;
             }
+            else if(egyenesVonalu.Checked)
+            { 
+                label10.Invoke(new Action(() => label10.Text = watch.Elapsed.ToString()));
+                if (y < -1)
+                {
+                    watch.Stop();
+                }
+            }
         }
+        private void stopper_button_Click(object sender, EventArgs e)
+        {
+            watch.Restart();
+            
+        }
+
         /// <summary>
         /// Ellipszis rajzoló az ingához
         /// </summary>
@@ -499,5 +518,7 @@ namespace GrafikusClientServer
         {
 
         }
+
+
     }
 }
