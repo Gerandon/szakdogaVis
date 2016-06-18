@@ -65,13 +65,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timer"
+            android:id="@+id/toggleButton"
+            android:onClick="starttimer"/>
         <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New ToggleButton"
-            android:textOff="Ki"
-            android:textOn="Be"
-            android:id="@+id/toggleButton"/>
+            android:textOff="Átlagolás KI"
+            android:textOn="Átlagolás BE"
+            android:id="@+id/atlagButton"/>
 
         <Switch
             android:layout_width="wrap_content"

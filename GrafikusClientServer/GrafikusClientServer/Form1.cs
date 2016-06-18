@@ -17,7 +17,6 @@ namespace GrafikusClientServer
     public partial class Form1 : Form
     {
         Thread t;
-        long duration;
         Stopwatch watch = new Stopwatch();
         public Form1()
         {
@@ -35,13 +34,13 @@ namespace GrafikusClientServer
         double x;
         double y;
         double z;
+        double sum;
         double newX;
         double newY;
         double newZ;
         //kezdőpozíció, mind 3 tengely adat kell, ezért tömb
         double[] startPosition = new double[3];
-        long time;
-        long lastTime;
+        string startTimer;
         //Hány adatot tettünk már ki a diagramra
         int countOfCharts = 0;
         //Beérkező adatok tárolása
@@ -77,12 +76,14 @@ namespace GrafikusClientServer
                     x = double.Parse(str_array[0], CultureInfo.InvariantCulture);
                     y = double.Parse(str_array[1], CultureInfo.InvariantCulture);
                     z = double.Parse(str_array[2], CultureInfo.InvariantCulture);
+                    sum = double.Parse(str_array[4], CultureInfo.InvariantCulture);
+                    atlag.Invoke(new Action(() => atlag.Text = sum.ToString()));
                     newX = double.Parse(str_array[0], CultureInfo.InvariantCulture);
                     newY = double.Parse(str_array[1], CultureInfo.InvariantCulture);
                     newZ = double.Parse(str_array[2], CultureInfo.InvariantCulture);
                     whichRadioChosen(x, y, z);
                         
-                    time = long.Parse(str_array[3], CultureInfo.InvariantCulture);
+                    startTimer = str_array[3];
                     label2.Invoke(new Action(() => label2.Text = x.ToString()));
                     label3.Invoke(new Action(() => label3.Text = y.ToString()));
                     label4.Invoke(new Action(() => label4.Text = z.ToString()));
@@ -90,10 +91,8 @@ namespace GrafikusClientServer
                     
                     if (saveData.Checked)
                     {
-                        setTime = time;
-                        sw.WriteLine(x + "\t" + y + "\t" + z+"\tTime:"+(time-setTime));
+                        sw.WriteLine(x + "\t" + y + "\t" + z+"\t"+watch.Elapsed.ToString());
                         sw.Flush();
-                        lastTime = time;
                     }
                     //label11.Invoke(new Action(() => label11.Text = (lastTime - setTime).ToString()));
                     counter++;
@@ -103,7 +102,7 @@ namespace GrafikusClientServer
             sw.Close();
             myListener.Stop();
         }
-        long? _time=null;
+        /*long? _time=null;
         public long? setTime
         {
             get { return _time; }
@@ -112,7 +111,7 @@ namespace GrafikusClientServer
                 if (_time ==null)
                     _time = value;
             }
-        }
+        }*/
 
         /// <summary>
         /// Diagram kirajzoltatása
@@ -236,19 +235,6 @@ namespace GrafikusClientServer
 
         }
         /// <summary>
-        /// A megtett utat számítjuk ki (még nincs kész)
-        /// </summary>
-        /// <param name="time"></param>
-        /// <param name="speed"></param>
-        /// <returns></returns>
-        public double distanceTravelled(long time, double speed)
-        {
-            double distance= 0;
-
-
-            return distance;
-        }
-        /// <summary>
         /// Be van e kapcsolva az adott tengely láthatósága
         /// </summary>
         /// <param name="ch"></param>
@@ -306,25 +292,31 @@ namespace GrafikusClientServer
                 {
                     chart1.Invoke(new Action(() => chart1.Visible = false));
                 }
-                
                 drawSpring(y);
                 return;
             }
             else if(egyenesVonalu.Checked)
-            { 
+            {
+                chart1.Invoke(new Action(() => chart1.Visible = false));
+                drawPos(y);
                 label10.Invoke(new Action(() => label10.Text = watch.Elapsed.ToString()));
-                if (y < -1)
+
+                if (y > 1)
                 {
                     watch.Stop();
+
+                    timestring = watch.Elapsed.Seconds.ToString() + "." + watch.Elapsed.Milliseconds.ToString();
+                    button2.Invoke(new Action(() => button2.Text = timestring));
+                    isWatchStarted = false;
+                }
+                else if (startTimer == "true")
+                {
+                    watch.Restart();
+                    isWatchStarted = true;
                 }
             }
         }
-        private void stopper_button_Click(object sender, EventArgs e)
-        {
-            watch.Restart();
-            
-        }
-
+        bool isWatchStarted = false;
         /// <summary>
         /// Ellipszis rajzoló az ingához
         /// </summary>
@@ -339,16 +331,16 @@ namespace GrafikusClientServer
             Pen pendPen = new Pen(Color.Black);
             //Lassú mozgásnál a gravitáció elég a tengelyekre, de goyrs mozgásnál csak 1 tengelyre megy rá
             //Nx = Ny - 9.6F;
-            if (time == -1)
-            {
+            //if (time == -1)
+            //{
                 Nx = Nx * 10;
                 Ny = Ny * 10;
-            }
-            else
-            {
-                Nx = Nx * 10;
-                Ny = Nx / 10 + 80;
-            }
+            //}
+            //else
+            //{
+            //   Nx = Nx * 10;
+            //    Ny = Nx / 10 + 80;
+            //}
             if (clicked && Ny / 10 > startPosition[1])
             {
                 Ny = startPosition[1] * 10;
@@ -366,6 +358,41 @@ namespace GrafikusClientServer
             //A telefont helyettesítő test
             g.FillEllipse(new SolidBrush(Color.Red), ((float)Nx + 500), ((float)Ny + 50), 30, 30);
 
+        }
+        /// <summary>
+        /// Egyenes vonalú egyenletesen gyorsuló mozgás
+        /// </summary>
+        /// <param name="Ny"></param>
+        int distance = 90;
+        string timestring;
+        private void drawPos(double Ny)
+        {
+            Invoke(new Action(() => Invalidate()));
+            Invoke(new Action(() => Update()));
+            double a;
+            double b;
+            double c;
+            double c_negyzet;
+            double alpha;
+            Graphics g = CreateGraphics();
+            //Meredekség - vonal
+            g.DrawLine(new Pen(Color.Red,2), 500, 200, 600, 200+Convert.ToSingle(((Ny-0.2)*10)));
+            //függőleges
+            a = 200-(200 + Convert.ToSingle(-((Ny - 0.2) * 10)));
+            //föld
+            b = 300;
+            // átfogó
+            c_negyzet = Math.Round(a, 2) + Math.Round(b, 2);
+            c = Math.Sqrt(c_negyzet);
+            alpha = (a / b)*10;
+            //atlag.Invoke(new Action(() => atlag.Text = a.ToString("#")));//az 'a' megadja a fokot???
+            //Földet helyettesítő test
+            g.DrawLine(new Pen(Color.Brown,3), 400, 200, 700, 200);
+            //Fokot mutató Curve pontjai
+            g.DrawLine(new Pen(Color.Green), 560, 200, 550, Convert.ToInt32(200 + Convert.ToSingle(-((Ny - 0.2) * 10)))+20 > 200 ? 200: Convert.ToInt32(200 + Convert.ToSingle(-((Ny - 0.2) * 10))) + 20);
+            //Fok kiírása megfelelő helyre
+            g.DrawString((-a).ToString("#")+ "°", this.Font, Brushes.Black, 530, 185);
+            
         }
         /// <summary>
         /// Harmonikus rezgőmozgás
@@ -519,6 +546,10 @@ namespace GrafikusClientServer
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button2.Invoke(new Action(() => button2.Text = "Sebesség: " + timestring));
 
+        }
     }
 }

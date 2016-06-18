@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
     SensorManager sm;
     TextView textResponse;
     Timer t;
-    long startTime = 0;
+    String startTime;
 
     PrintWriter printWriter;
     Socket socket;
@@ -71,7 +73,8 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
     String radiovalue;
     Integer sensorvalue;
 
-    ToggleButton tog;
+    ton tog;
+    ToggleButton atlagButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,8 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
         setContentView(R.layout.activity_sensor_proccessing);
         //Hide title bar
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        tog = (ToggleButton)findViewById(R.id.toggleButton);
+        tog = (Button)findViewById(R.id.toggleButton);
+        atlagButton = (ToggleButton)findViewById(R.id.atlagButton);
         lpf = (Switch)findViewById(R.id.switch1);
         lpf.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
                                           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
@@ -123,19 +127,19 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
 
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sm.registerListener(this, accelerometer,30000);//UI, sensorvalue
-
-        tog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sm.registerListener(this, accelerometer, 30000);//UI, sensorvalue
+        atlagButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    isToggleOn = true;
+                    isAtlagOn = true;
                 } else {
-                    isToggleOn = false;
+                    isAtlagOn = false;
                 }
             }
         });
 
     }
+    boolean isAtlagOn = false;
     boolean isToggleOn = false;
     ///Változók a pozíció számításhoz
     static final float NS2S = 1.0f / 1000000000.0f;
@@ -170,11 +174,14 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
         }
         return null; //idáig nem jut el
     }
+    ArrayList<Double> atlagolando = new ArrayList<Double>();
+    double sum = 0;
+    public void starttimer(View view){
+        startTime = "true";
+    }
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(isToggleOn){
-
-            alpha = .8F;//timeConstant / (timeConstant + dt);
+            /*alpha = .8F;//timeConstant / (timeConstant + dt);
             gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
             gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
             gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
@@ -184,51 +191,71 @@ public class SensorProccessing extends AppCompatActivity implements SensorEventL
             xText.setText("X: "+linearAcceleration[0]);
             yText.setText("Y: "+linearAcceleration[1]);
             zText.setText("Z: "+linearAcceleration[2]);
+
+            linearAcceleration[0] = event.values[0];
+            linearAcceleration[1] = event.values[1];
+            linearAcceleration[2] = event.values[2];
+            xText.setText("X: "+event.values[0]);
+            yText.setText("Y: "+event.values[1]);
+            zText.setText("Z: " + event.values[2]);*/
+        if(lpfOnOrOff==true){
+            //low-pass filter
+            timestamp=System.nanoTime();
+            //Megkeressük a frissítések közötti periódust
+            //Átalakítjuk nano-másodpercről másodperccé
+            dt=1 / (count / ((timestamp - timestampOld) / 1000000000.0f));
+            count++;
+            alpha = 0.8F;//timeConstant / (timeConstant + dt);
+            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+            gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+            //-----Low pass filter
+            linearAcceleration[0] = event.values[1]-gravity[1];//Y tengelyt küldjük üresen
+            linearAcceleration[1] = event.values[1];//y tengelyt küldjük szűrve
+            linearAcceleration[2] = event.values[2] - gravity[2];
+
+
+            //startTime = System.currentTimeMillis();
+            xText.setText("X: "+linearAcceleration[0]);
+            yText.setText("Y: "+linearAcceleration[1]);
+            zText.setText("Z: " + linearAcceleration[2]);
         }
         else{
-            if(lpfOnOrOff==true){
-                //low-pass filter
-                timestamp=System.nanoTime();
-                //Megkeressük a frissítések közötti periódust
-                //Átalakítjuk nano-másodpercről másodperccé
-                dt=1 / (count / ((timestamp - timestampOld) / 1000000000.0f));
-                count++;
-                alpha = 0.8F;//timeConstant / (timeConstant + dt);
-                gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-                gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-                gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-                //-----Low pass filter
-                linearAcceleration[0] = event.values[1]-gravity[1];//Y tengelyt küldjük üresen
-                linearAcceleration[1] = event.values[1];//y tengelyt küldjük szűrve
-                linearAcceleration[2] = event.values[2] - gravity[2];
-
-                startTime = System.currentTimeMillis();
-                xText.setText("X: "+linearAcceleration[0]);
-                yText.setText("Y: "+linearAcceleration[1]);
-                zText.setText("Z: " + linearAcceleration[2]);
-            }
-            else{
-                linearAcceleration[0] = event.values[0];
-                linearAcceleration[1] = event.values[1];
-                linearAcceleration[2] = event.values[2];
-                startTime = -1;
-                xText.setText("X: "+event.values[0]);
-                yText.setText("Y: "+event.values[1]);
-                zText.setText("Z: " + event.values[2]);
-            }
+            linearAcceleration[0] = event.values[0];
+            linearAcceleration[1] = event.values[1];
+            linearAcceleration[2] = event.values[2];
+            xText.setText("X: "+event.values[0]);
+            yText.setText("Y: "+event.values[1]);
+            zText.setText("Z: " + event.values[2]);
+        }
+        if(isAtlagOn){
+                sum = 0;
+                for(int i = 0;i<atlagolando.size();i++){
+                    sum += 1.0*atlagolando.get(i);
+                }
+                sum = sum / atlagolando.size();
+            linearAcceleration[0] = event.values[0];
+            linearAcceleration[1] = event.values[1];
+            linearAcceleration[2] = event.values[2];
+        }
+        else{
+            atlagolando.add(1.0*event.values[1]);
         }
 
 
         try {
             printWriter=new PrintWriter(socket.getOutputStream());
-            printWriter.println(linearAcceleration[0]+" "+ linearAcceleration[1]+" "+linearAcceleration[2]+" "+startTime);
+            printWriter.println(linearAcceleration[0]+" "+ linearAcceleration[1]+" "+linearAcceleration[2]+" "+startTime+" "+sum);
             printWriter.flush();
+            startTime = "false";
         } catch (IOException e) {
             e.printStackTrace();
         }catch (Exception e){
             textResponse.setText("");
         }
+
     }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
