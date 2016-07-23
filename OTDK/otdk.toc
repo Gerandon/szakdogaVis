@@ -1,0 +1,26 @@
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{4}{chapter.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Tervez\IeC {\'e}s}{6}{chapter.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Specifik\IeC {\'a}ci\IeC {\'o}}{7}{section.2.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}A keretrendszer}{8}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Szerver oldal}{8}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}TCP/IP kapcsolat}{8}{section.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Adatok feldolgoz\IeC {\'a}sa}{9}{subsection.3.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.2}Diagramok}{10}{subsection.3.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.3}Inga}{11}{subsection.3.2.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.4}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{12}{subsection.3.2.4}
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Kliens alkalmaz\IeC {\'a}s}{13}{section.3.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.4}Android Studio}{16}{section.3.4}
+\select@language {magyar} \contentsline {section}{\numberline {3.5}Az alkalmaz\IeC {\'a}s}{17}{section.3.5}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.5.1}AsyncTask}{17}{subsection.3.5.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.5.2}Low Pass Filter}{19}{subsection.3.5.2}
+\select@language {magyar} \contentsline {section}{\numberline {3.6}Szenzoradat m\IeC {\'e}r\IeC {\'e}s}{20}{section.3.6}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.6.1}Real Time adat\IeC {\'a}tvitel}{21}{subsection.3.6.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Fizikai k\IeC {\'\i }s\IeC {\'e}rletek}{22}{chapter.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.1}Kalibr\IeC {\'a}ci\IeC {\'o}}{22}{section.4.1}
+\select@language {magyar} \contentsline {section}{\numberline {4.2}Export\IeC {\'a}l\IeC {\'a}si lehet\IeC {\H o}s\IeC {\'e}gek}{22}{section.4.2}
+\select@language {magyar} \contentsline {section}{\numberline {4.3}Egyenes vonal\IeC {\'u}, egyenletesen v\IeC {\'a}ltoz\IeC {\'o} mozg\IeC {\'a}s}{23}{section.4.3}
+\select@language {magyar} \contentsline {section}{\numberline {4.4}Harmonikus rezg\IeC {\H o}mozg\IeC {\'a}s}{24}{section.4.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.5}Fizikai inga}{25}{section.4.5}
+\select@language {magyar} \contentsline {section}{\numberline {4.6}K\IeC {\"o}rmozg\IeC {\'a}s}{26}{section.4.6}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Tov\IeC {\'a}bbi tervek}{28}{chapter.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {6}\IeC {\"O}sszefoglal\IeC {\'a}s}{29}{chapter.6}

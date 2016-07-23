@@ -1,0 +1,549 @@
+\documentclass{thesis-ekf}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\PassOptionsToPackage{defaults=hu-min}{magyar.ldf}
+\usepackage[magyar]{babel}
+\usepackage{graphicx,amsmath,amssymb,amsthm}
+\graphicspath{{./images/}}
+\footnotestyle{rule=fourth}
+
+\newtheorem{tetel}{Tétel}[chapter]
+\newtheorem{lemma}[tetel]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definicio}[tetel]{Definíció}
+\newtheorem{feladat}[tetel]{Feladat}
+\theoremstyle{remark}
+\newtheorem{megjegyzes}[tetel]{Megjegyzés}
+\newtheorem*{megoldas}{Megoldás}
+
+\logo{\includegraphics[width=0cm]{ekf-logo1}}
+\institute{}
+\title{Mobil eszköz alkalmazási lehetőségei fizikai kísérletekben\\
+	OTDK dolgozat}
+\authorcaption{Készítette:}
+\author{Asztalos Gergő\\ Programtervező informatikus BSc \\
+	 3. évfolyam}
+\supervisorcaption{Témavezető:}
+\supervisor{Biró Csaba\\ Adjunktus}
+\city{Eger}
+\date{2016}
+
+
+\usepackage[T1]{fontenc}
+\usepackage{inconsolata}
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	escapeinside={(*@}{@*)},
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily
+}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter*{Motiváció}
+
+\begin{quotation}
+\begin{flushright}
+			\it{ ,,Hallom - elfelejtem.\\Látom - emlékszem.\\Csinálom - megértem.''	\\
+				Confucius
+		\end{flushright}
+\end{quotation}
+ Motivációm elsődlegesen általános és középiskolai tanulmányaimból gyökerezik. Az igazság az, hogy a természettudományos tárgyak (elsődlegesen a kémia és fizika) nem igazán nyerték el a tetszésem.
+ Tanáraimról jó emlékeim vannak, bennem mégsem sikerült felkelteniük az érdeklődést. Távolodtam. 
+ Arra emlékszem, hogy meg kellett tanulni. Hogy miért? Azt akkoriban nem tudtam. Pedig kísérletezni jó, nagyon jó! Amikor középiskolába kerültem, megtetszett az informatika és valamikor ilyenkor határoztam el, hogy ha még nem is tudom pontosan milyen, de informatikus lesz belőlem. A számítógép izgalmas, a programozás izgalmas, a programozás művészet! A számítógépen megoldandó problémák felébresztették bennem a kísérletező kedvet és az érdeklődésem egyre inkább a természettudományos problémák (programozása, szemléltetése) felé irányult. Elkezdtem természettudományos cikkeket olvasni, és egyre több olyan alkalmazást készíteni, amelyeknek alapja valamilyen fizikai és/vagy matematikai modell. Innen már egyenes út vezetett ahhoz, hogy a dolgozatom témáját ebből a témakörből válasszak. Szerettem volna olyan alkalmazást fejleszteni, ami esetleg hasznos lehet a hozzám hasonló cipőben lévő, most általános és középiskolai éveit taposó diáktársaimnak.         
+
+\chapter{Bevezetés}
+A mai modern világban rohamléptekben nő az okostelefonok, táblagépek mindennapi felhasználása. Egyre több azon alkalmazások száma, melyek segítik, esetleg szórakoztatják vagy épp tájékoztatják a felhasználót egy adott témában. 
+Szinte már mindenhez használjuk őket és kiaknázzuk az összes lehetőséget ahol újabb applikációval ismerkedhetünk meg.
+Tanuláshoz, munkához is használjuk ezeket,bár nem lenne elengedhetetlen számunkra.
+Sőt, annak ellenére, hogy az utolsó memóriát is lefoglaljuk ilyen programokkal az eszközeinkben, sok esetben meg sem fordul a fejünkben, hogy miből áll össze, milyen szoftveres vagy épp hardveres komponensek könnyítik meg az életünket. Én szerencsés vagyok, mert nem csupán eszembe jutott hanem választ is kaptam ezekre a "kérdésekre" az elmúlt három évben.
+\par Amióta a főiskolára kerültem és programozni tanulok, egyre inkább foglalkoztatott, hogy hogyan is működik egy okostelefon, hogyan működnek a gesztusok, a tájolások, milyen eszköz segítségével tudja a telefon, hogy éppen hol vagyok. Miért képes egy relatíve kis eszköz megmutatni azt amit a hétköznapokban sokkal hatalmasabb eszközök szoktak mérni. Hogy képes több eseményt egy azon eszköz kezelni...
+Később, tanulmányaim során megtudtam, hogy ezeket különböző szenzorok segítségével tudjuk elérni. 
+Ezek a gondolatok megmozgatták a fantáziámat. Végül elkezdtem beleásni magam a témába: hogyan is lehetne ezeket még inkább beleszőni a mindennapjainkba. Hogy tudnánk használni ezeket a szenzorokat olyan célokra, melyek különböznek az átlagostól, esetleg még inkább segítik a munkánkat. Mi lenne, ha ezeket nem csak szórakozás, de tanítás céljából is fel tudnánk használni, elősegíteni a diákok fejlődését egy adott témakörben. Ezen célok eléréséhez a telefon egy kiváló segédeszköz lehet.
+
+\par Társadalmunk fejlődését alapvetően befolyásolja az, hogy milyen mértékben vagyunk képesek átadni a felhalmozódott tapasztalatokat a jövő nemzedékei számára. Az iskola az az intézmény, ahol ez szervezett keretek között céltudatos formát ölt. A természettudományos kísérletezés során a tanulóknak lehetőségük nyílik egy adott természetben lezajló jelenség, folyamat bemutatására, összefüggések feltárására, törvényszerűségek megértésére. A kísérletezés, a próbálgatás az egyik legizgalmasabb emberi tevékenység.  Bemutatunk egy olyan oktatási segédeszközt, amely a kor kihívásainak megfelelve segítséget nyújthat, a természeti folyamatok meghatározó törvényszerűségeinek megismerésére, tanulmányozására. Az alkalmazás specifikációjának elkészítésekor kiemelt figyelmet fordítottunk arra, hogy az elkészült szoftver azon túl, hogy az egyes folyamatokat szemlélteti, lehetőséget biztosítson majd a tanulóknak, elméleti következtetések, hipotézisek felállítására, továbbá ellenőrzésére. Jelen alkalmazásunkkal elsősorban a 10-18 éves korosztályt céloztuk meg.
+
+\chapter{Tervezés}
+
+Amikor egy projektről beszélünk, az első, és az egyik legfontosabb lépés az, hogy megfelelően megtervezzük a programunkat. Ezen folyamat során meg kell beszélnünk, hogy milyen lesz a program felépítése, struktúrája, dizájnja. Fontos ezeket még a tervezési fázisban megtenni, hisz egy programnál bármilyen alapvető funkciókat érintő változtatás utólagosan nehéz feladat. Célszerű a tervezési fázisban megbeszélteket feljegyezni valamilyen formában. Ilyenkor sokan a rajzoláshoz, íráshoz folyamodnak és ezzel időt, és energiát spórolnak maguknak. Ezt tettem én is! Az első pár megbeszélésen az ötleteléshez semmi másra nem volt szükség csak papírra és ceruzára.
+
+\par Azonban mielőtt hozzákezdtünk volna a tervezéshez, megvizsgáltuk, hogy ezen a területen milyen eredmények születtek már az elmúlt időszakban. A kezdetektől fogva egy olyan alkalmazást szerettünk volna készíteni, ami egyedi. Egy olyan a későbbiekben könnyedén bővíthető valós idejű kommunikációt biztosító keretrendszert, amely segítségével fizikai kísérletek széles skálája reprezentálható.
+Számos tanulmány született az elmúlt pár évben ezen a területen, melyekben azonban kizárólag egy-egy adott kísérlet bemutatására és a szenzorhibák elemzésére fektették a hangsúlyt. Az eredmények szemléltetése általában késleltetve, csak a mért adatok feldolgozása és korrigálása után történik meg. Természetesen találhatóak valós időben működő alkalmazások is, de ezek kizárólag csak a telefonon szemléltetik azt, ami valójában történik ~\cite{cimke1,cimke2,cimke3,cimke4,cimk5}. \\
+A célként megfogalmazott, valós időben működő, fizikai kísérletek szemléltetésére alkalmas keretrendszert nem találtunk. Folytathattuk tovább a tervezést!
+
+\par Elsőként felépítettük a számunkra megfelelő struktúrát. Tudtuk, hogy nem csak egy alkalmazás lesz, hiszen főbb céljaink között szerepelt a számítógép és okostelefon közötti Real Time \footnote{Valós idejű adatfeldolgozás} adatátviteli kapcsolat kialakítása. Megterveztük, hogy a telefonon és a számítógépen lévő programoknak milyen legyen a kinézete, milyen oldalak, ablakok kövessék egymást.\\
+Tervezési fázisban felmerülő egyéb a kommunikációra és szenzorokra vonatkozó kérdések:
+\begin{itemize}
+\item Milyen módon fog kommunikálni az a két eszköz? 
+\item Milyen szenzorral dolgozzak? 
+\item Hogyan vigyük át az adatot úgy, hogy megközelítőleg valós idejű legyen?
+\item Milyen eljárásokkal lehet majd a kiugró szenzorhibákat kezelni?
+\end{itemize}
+\par  A kérdések megválaszolásához, számos technikai dokumentációt cikket kellett feldolgozni.
+Előfordult azonban az is, hogy néhány kérdésre csak akkor kaptunk választ, amikor már elkezdtük magát a programozást.
+
+\section{Specifikáció}
+
+\par Célunk egy olyan többrétegű kliens-szerver alapú alkalmazás fejlesztése, amely képes az okostelefonról érkező szenzoradatokat valós időben feldolgozni és megjeleníti.\\
+
+\noindent \textbf{Módszertani követelmények} 
+
+\par Természetesen tudjuk azt, hogy ebben nagyon nagy a kockázat, ugyanis egy rosszul kivitelezett és megjelenített fizikai kísérlettel akár alá is aknázhatjuk az adott megértési folyamatot.  Az előzetesen feldolgozott irodalmakból jól látható, hogy olykor jelentős mértékű szenzorhibákkal is meg kell majd várhatóan küzdeni. Ezért az alkalmazásunkból semmiképp nem maradhat ki majd az un. „fizika szertár” funkció. Ez tulajdonképpen nem jelent mást, minthogy minden egyes kísérlet elvégzése előtt egy kalibrációt kell majd elvégezni. A kalibráció lehet egy vagy több próba kísérlet, amely alatt a tanár ismerteti az adott kísérletet. A próbakísérletek adatait el kell tárolnunk és valamilyen módon elemeznünk kell majd. Ezen un. referenciaértékeket a későbbiekben a valós idejű megjelenítésnél (kísérlet alatt) az esetleges szenzorhibák (kiugróan magas és alacsony értékek) elsimítására, elnyelésére lehet majd felhasználni. A grafikus felület tervezésekor kiemelt figyelmet kell majd arra fordítani, hogy a mért adatok (skalárok, vektorok) valóságnak megfelelő értékeket és irányokat reprezentálják.\\
+
+
+
+%\section{Gyorsulásmérő - Accelerometer}
+%	A gyorsulásmérő egy műszer, amely nevéből adódóan gyorsulás mérésére szolgál. A gyorsulást viszont elég nehéz mérni, ezért leginkább a gyorsuláskor fellépő erőt mérjük. Számtalan helyen használják és használhatják: okos telefonokban, digitális fényképezőgépekben, táblagépekben, repülésnél és még sok más helyen. Ezek a szenzorok alkotják a mikromechanikai szenzorok egyik nagy csoportját~\cite{cimke6}. \\
+%Működési elve (Newton 2. törvénye):
+%\begin{align*}
+%\textbf{F}=\textbf{m}\times \textbf{a}
+%\end{align*}
+%ahol a szenzor az $\textbf{m}$ tömegre ható $\textbf{F}$ erőt méri.
+%\subsection{Gyorsulásmérő okostelefonokban}
+%Okostelefonokban a gyorsulásmérő arra szolgál, hogy a készülék érzékelhesse a különböző mozgásokat, amikhez így feladatokat tudunk párosítani. A leggyakoribb és legelterjedtebb, az átlagos felhasználók által leginkább használt felhasználási módja az, amikor a telefont elforgatva a képernyő is automatikusan áttájolódik, fekvő és álló tájolási mód között váltakozva. Ez viszont (okostelefonokat tekintetbe véve) a legáltalánosabb felhasználási módszer, ezen kívül még számos esetben használhatjuk a gyorsulásmérőnket, így például gesztusok kezelésében\footnote{A telefont megrázva valamilyen irányítást eszközölünk}, de akár játékok irányításában is  ~\cite{cimke7,cimke9}.
+%\subsection{Gyorsulásmérő alkalmazása a fizikában}
+%Ahogy a példák is mutatják, számos dologra használhatjuk szenzorunkat, miért ne használnánk tehát fizikai kísérletekben segédeszközként? Amikor ilyen kísérletekről beszélünk, természetesen nem olyan kísérletekre gondolunk, ahol a telefon víz vagy tűzállóságát teszteljük, esetleg a szabadesést vizsgáljuk, viszont egy inga használatára kiváltképp alkalmas lehet. Kihasználva a telefonra ható gravitációs erőt, illetve a gyorsulást, máris monitorozni tudjuk a telefonunkat, és használhatjuk segédeszközként.
+%\section{A felület}
+%Mint mindenkinek, nekem is elsők között szerepelt a tervezési szakaszban a felület megtervezése. Ehhez nem használtam külső szoftvert, inkább papírformán készítettem el a drótvázat. Miután már tudtam, milyen funkciói lesznek a programomnak, itt volt az ideje, hogy megtervezzem a felületét. Számomra nem az volt a legfontosabb, hogy működő, jól áttekinthető legyen, a kinézet csak másodlagos volt. Mivel több megjelenítési forma, vagy adott esetben kísérlet is lesz, szükség volt valamilyen módszerre. Ehhez RadioButton-öket választottam. Ez azért tűnt optimálisnak, mert mindig csak 1 gomb lehet bekapcsolva, így váltani lehet a kísérletek között. Ezen kívül szükség volt még arra, hogy a szenzor értékeit kiírassam, ehhez pedig Label-t használtam. A gyorsulási grafikon megjelenítéséhez egy beépített eszközt találtam alkalmasnak, ami nem más, mint a Chart. Ez egy olyan eszköz, amelynek segítségével diagramokat rajzoltathatunk ki, pusztán úgy, hogy pontokat adunk hozzá.
+%Ezek mellett természetesen szükség volt egy kapcsolódás gombra is, hiszen valahogy kapcsolatot szeretnénk létesíteni a telefonunkkal.
+%\par Az Android applikáció felületét hasonló módon terveztem meg, habár az sokkal szolidabb, kevesebb Tool helyezkedik el rajta. Itt 2 Activity-t terveztem meg. Az első lényegében csak 2 TextBoxot és egy Connect gombot tartalmaz, melyek segítségével létrehozhatjuk a kapcsolatot. A második Activity esetében hasonló a dolgunk, hisz ott is csak egy pár eszköz lesz a képernyőn. Pár darab Label, RadioButton, hasonlóan a szerver oldali applikációhoz, azért, hogy a szenzor mérési gyorsaságát be lehessen állítani. Továbbá kell még egy Switch gomb is, hogy a felhasználó váltani tudjon a filterezett szenzor mérés és a tiszta mérés között. 
+
+\chapter{A keretrendszer}
+\section{Szerver oldal} 
+A tervezési fázis után elkészítettük a keretrendszer drótváz modelljét. 
+\par A drótváz modell elkészítése után következett egy rendkívül nehéz feladat. Meg kellett határozni, hogy milyen programozási környezeteket fogunk majd használni. Számos környezetet megvizsgáltunk (java, python, delphi), de  végül a dotNet és a C\# programozási nyelv mellett döntöttünk. A fejlesztői környezet tekintetében pedig a Visual Studio-ra esett a választás. 
+%nyelvre esett, ennek pedig nem egy oka van. Talán azért is választottam ezt a nyelvet, mert tudtam, hogy az internet adta segítségeket leszámítva is el tudom készíteni az alkalmazásom, hiszen már a főiskolán is ez volt az első nyelv amivel megismerkedtem és nagyon sok segítséget kaptam az oktatóimtól is. Külön tantárgy foglalkozott a grafikai rajzolással, megjelenítéssel, s mivel a témámhoz szükségem volt ezekre, megerősített abban, hogy ennél a nyelvnél maradjak. Továbbá a fejlesztői környezet ismerete is megkönnyítette a munkámat, hisz nem kellett újjal megismerkednem. Ez a fejlesztői környezet pedig a Visual Studio volt.
+%\section{Visual Studio}
+%A Visual Studio a Microsoft olyan fejlesztői környezete, mely több nyelvet is tartalmaz mint plédául a Visual Basic, C++, C\# és ezek mellett még a z XML-t\footnote{Extensible Markup Language - Kiterjeszthető jelölő nyelv} is támogatja, ezek a nyelvek pedig mind IDE\footnote{Integrated Development Environment, azaz integrált fejlesztői környezet} fejlesztői környezetet használnak. Különböző Project Template-k közül választhatunk, mint például a Console Application, Windows Form Application, Windows Presentation Foundation. A Visual Studio egy meglehetősen jó fejlesztői környezet, melynek egyszerű és áttekinthető a fájl struktúrája, így könnyebbé és gyorsabbá teszi a munkát a felhasználója számára. A Project Template-ket böngészve sokat tűnődtem azon, hogy melyiket is válasszam, de végül a Windows Form Application-nél maradtam. 
+%\par Ezt azért választottam, mert a tervezési folyamatnál már tudtam, hogy létre kell hoznom egy TCP/IP kapcsolatot a telefon és a számítógép között, emellett azt is, hogy valamilyen formában rajzolni szeretnék a Form-omra, habár azt, hogy pontosan mit, abban még nem voltam biztos.E témában és ebben a környezetben már voltak korábbi tapasztalataim, éreztem, hogy képes leszek megvalósítani.
+
+\section{TCP/IP kapcsolat}
+A Transmission Control Protocol, azaz TCP, az internet egyik legfőbb részét, az úgymond "gerincét" alkotó TCP/IP protokollcsalád egyik fő protokollja. Ezen protokollcsalád két legfontosabb transzport protokollja a TCP és az UDP\footnote{User Datagram Protocol}. A TCP egy kapcsolatorientált, megbízható protokoll. A kommunikáció megkezdése előtt ki kell építenünk a kapcsolatot, majd ezután megkezdhetjük az adatátvitelt. Amennyiben hiba történik, mint például elveszik egy csomag, vagy meghibásodik, esetleg már hibásan érkezik, a TCP saját maga újraindítást kér. Az átvitel úgy történik, hogy az adat, amit szeretnénk átküldeni egy úgynevezett byte-folyam, amit a TCP szétszeparál csomagokra és elküldi. A kapcsolat tehát full-duplex\footnote{Megengedi a kétirányú kapcsolatot, szimultán módon}, továbbá rendelkezik egy olyan szinkronizációs mechanizmussal, ami megakadályozza, hogy az adó elárassza a vevőt. Emellett a TCP figyeli a kapcsolatot és megpróbálja megtippelni a sávszélességét a torlódásokból, válaszidőből stb., amit később felhasznál az adatsebesség beállításakor.
+
+\par Alkalmazásunkban az okostelefon minősül az adónak, és a számítógép pedig a vevőnek. Értelemszerű, hiszen a szenzoradat a telefonról érkezik és azt kell továbbítanunk a vevőnek. Ez úgy történik, hogy a telefon egy IP cím és egy Port szám segítségével kérést küld a szerveroldal felé a kapcsolódásra, amit a már várakozó szerver később fogad. Ezután meg is kezdődik az adatátvitel. Esetünkben, mivel az egész program a Real Time adatátvitelen alapszik, ezért a kommunikáció nyitott, mindaddig, míg azt "erőszakkal" be nem zárjuk.
+
+\subsection{Adatok feldolgozása}
+Az élő kapcsolat fenntartása annyit jelent, hogy a beérkező adatot azonnal feldolgozzuk és a célunknak megfelelően fel is használjuk, adatról-adatra. A hangsúly azon van, hogy megpróbáljuk abban a pillanatban feldolgozni szerver oldalon az adatot, amikor az előállítódik a kliens oldalon. Természetesen száz százalékosan ez nem teljesíthető, hiszen ez a folyamat elég erőforrás igényes.
+\par A kapcsolat beérkezése után meg is kezdődik az adatok feldolgozása. Ez a feldolgozási folyamat természetesen attól függ, mit szeretnénk csinálni majd az adatunkkal.
+\begin{lstlisting}
+int port = 8888;
+label5.Invoke(new Action(() => label5.Text = GetLocalIPAddress()));
+TcpListener myListener = new TcpListener(IPAddress.Parse(GetLocalIPAddress()), port);
+myListener.Start();
+label1.Invoke(new Action(() => label1.Text = "Varakozas kliensekre a " + port + " porton."));
+TcpClient connectedClient = myListener.AcceptTcpClient();
+label1.Invoke(new Action(() => label1.Text = "Kliens csatlakozott"));
+\end{lstlisting}
+A csatlakozást követően szükségünk van egy StreamReader-re, ahhoz, hogy a kapcsolódott eszköz által küldött információt meg is tudjuk jeleníteni, vizsgálni.
+Az adatok, azaz a 3 tengely értéke 1 adott sorként érkezik át a kapcsolat folyamán. Ha ezekkel az adatokkal dolgozni is szeretnénk (márpedig szeretnénk), szükségünk lesz arra, hogy azt az 1 sort, szétbontsuk 3, különálló értékre. Így megkapjuk az $x$, $y$ és $z$ tengelyek értékét.
+\begin{align*}
+-0,10534488 \qquad 9,787497 \qquad-1,091756
+\end{align*}
+ A szétbontásuk pedig a következőképp történik:
+ \begin{lstlisting}
+ string s = r.ReadLine();
+ string[] str_array = s.Split(' ');
+ x = double.Parse(str_array[0], CultureInfo.InvariantCulture);
+ y = double.Parse(str_array[1], CultureInfo.InvariantCulture);
+ z = double.Parse(str_array[2], CultureInfo.InvariantCulture);
+ \end{lstlisting}
+Ebben az esetben a(z) $s$ változónk tárolja az átküldött sort, a(z) $str_array$ pedig annak a szétbontott változatát. Így meg is kaptuk a szövegként átküldött sorunkat, változókra szétbontva és megkezdhetjük a feldolgozásukat, beillesztésüket a feladatunkba.
+
+
+\subsection{Diagramok}
+Most már megvannak az adataink, fel is tudjuk hát dolgozni őket. Első és legfontosabb dolgunk az, hogy létrehozzunk egy diagramot, ami segítségével meg tudjuk jeleníteni (tengelyenként) a telefonunk gyorsulását. Ez már önmagában véve is egy olyan szemléltetés, melyet használhatnánk a fizika tanórákon. Szerencsére van erre egy beépített Tool\footnote{Visual Studio-ban a felhelyezhető gombokat, mezőket egy ToolBox-ban találjuk}, melynek értékeket átadva már el is készíti a megfelelő diagramot. Ezen Tool neve: Chart. Dolgunk nehezedik annyiban, hogy ennek a diagramnak előre definiálnunk kell bizonyos pontokat a megjelenítéshez, viszont bármikor tudunk hozzáadni új pontokat. Ezzel csak annyi a probléma, hogy az új pontokat beszúrja, a többi pont mellé, így viszont bizonyos idő után feltorlódnak az adatok és a vonaldiagramunk elveszti varázsát. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{grafikon}
+	\caption{Gyorsulás grafikon}\label{grafikon}
+\end{figure}
+\par Erre beépített megoldásunk sajnos nincs, magunknak kell megírnunk a függvényünket úgy, hogy a bent lévő adatok egy része megmaradjon, viszont a régi adatokat kitöröljük. Erre egy olyan megoldást eszközöltem, hogy amennyiben a diagramunk pontjainak száma elér egy előre megadott mennyiséget, a pontokat elmentjük egy listába, a listát megfelezzük, az első részét töröljük a diagram összes elemével együtt, majd a lista második része lesz a diagramunkra ráillesztve. Ezzel azt érjük el, hogy a diagram törlődik, az elemek fele elvész, a másik fele pedig újból beíródik, így a diagramunknál nem lesz torlódás, mégis folyamatosnak látszik a megjelenítés.
+
+
+\subsection{Inga}
+Sokszor elgondolkoztam azon, hogy ha már ennyi mindenre képesek a telefonjaink a mai világban, miért ne használnánk őket a Chatelésen és a fénykép készítésen kívül valami másra is, valami hasznosabbra esetleg. Természetesen a telefon legfőbb célja még mindig a telefonálás, de mi lenne, ha például egy inga lemodellezésére tudnánk használni, esetleg fizikai tanórákon?
+\par Számtalan internetes fórumot és hasonló oldalt átnéztem, de sehol nem találtam olyan megoldást, amelyben a telefon valamelyik szenzorát úgy használják ki, hogy az valós időben monitorozva legyen esetleg egy számítógépen is, kirajzolva azon az egyes fizikai adatait az ingamozgásnak, vagy ha esetleg volt is, nem valós idejű. Elkezdtem gondolkodni, hogyan is lehetne megoldani, ezt a fajta monitorozást. Az első dolog ami eszembe jutott, hogy megvizsgáljam, milyen adatokat kapunk, egy-egy mérés során? Nos, igaz hogy a gyorsulásmérőt nem feltétlenül erre találták ki, de az adatok olyan biztatóak voltak, hogy nyugodtan lehetett velük tervezni. Ezután már csak az jött, hogy hogyan használjam fel ezeket az adatokat?
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{ingamodell}
+	\caption{Inga}\label{inga}
+\end{figure}
+\par A megoldás az lett, hogy figyelembe véve az ablak méretét (magasság/szélesség), amire rajzolni szeretnénk (tehát megjeleníteni az ingánkat) és az adatokat összevetve, arra jutottam, hogy a telefon mért tengelyadatait, a képernyőre vetítve akár még megfelelő megoldást is kaphatok. A szenzoradatok viszont nem egész értékek, hanem valós számok, szemben a képernyő szélesség vagy magasságával, hiszen azok pixelszámok, amik minden esetben egészek. Át kellett tehát konvertálni a szenzoradatunkat egész számmá, kerekítve azt. Ennek eredménye pedig az lett, hogy a telefon inga-mozgása már lekövethető lett a képernyőn is. 
+ \begin{lstlisting}
+float xPoint = Convert.ToSingle(Nx) + 500;
+float yPoint = Convert.ToSingle(Ny) + 50;
+//"Fonal"
+g.DrawLine(pendPen, 515, 40, xPoint+15, yPoint);
+//Thetajelzo vonal
+g.DrawLine(new Pen(Color.Red),515,150,(float)Nx+515,(float)Ny+65);
+//A telefont helyettesito test
+g.FillEllipse(new SolidBrush(Color.Red), ((float)Nx+500), ((float)Ny + 50) , 30, 30);
+ \end{lstlisting}
+ \par Tehát lényegében annyi történik, hogy minden egyes szenzoradat mérésnél behelyettesítjük a telefon új pozícióját a rajzoló függvényünkbe. Ennek hatására egy folyamatosnak tűnő mozgást érünk el. Ha rezgőmozgásról beszélünk, két fajta rezgőmozgást különböztetünk meg:
+\subsection{Harmonikus rezgőmozgás}
+A harmonikus rezgőmozgásról akkor beszélünk, ha egy testet az egyensúlyi helyzetéből kimozdítunk, és ennek köszönhetően a test két szélső helyzet között periodikus mozgást végez.
+\begin{enumerate}
+	\item Csillapítatlan rezgőmozgás: Időben állandó a maximális kitérés (idealizált eset).
+	\item Csillapított rezgőmozgás: A maximális kitérés időben csökken.
+\end{enumerate}
+\par Ha egy kicsit jobban bele szeretnénk mélyülni a fizikába, megvizsgálhatjuk az idő szinuszos függvényét is. Ebben az esetben, ha egy rugóra függesztett test rezgését vizsgáljuk, és azonos időközönként megfigyeljük a kitérést, akkor azt tapasztaljuk, hogy a kitérés az idő szinuszos függvénye lesz.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=15cm]{harmonikus}
+	\caption{Harmonikus rezgőmozgás}\label{harmonikus}
+\end{figure}
+\par A tervezési szakaszban, az ingán gondolkodva, eszembe juttatott még egy kísérletet, ami hasonló elven működik és szemléltetésnek se a legrosszabb dolog, ez pedig a Harmonikus Rezgőmozgás. A gyorsuló mozgást minden irányból, minden tengelyen tudjuk mérni. Rezgő mozgásnál azonban csak egy adott tengelyre van szükségünk, mégpedig az Y tengelyre. Ennél a kísérletnél biztos hogy mindig ezt a tengelyt fogjuk figyelni, hiszen biztos, hogy a telefon állított pozícióban lesz és az is biztos, hogy mi csak a le-fel mozgását fogjuk figyelembe venni.  Tehát az olyan rezgőmozgást, ahol teljesül, hogy a kitérés az idő szinuszos függvénye harmonikus rezgőmozgásnak nevezzük.
+ \begin{lstlisting}
+g.DrawLine(515,40,515,Convert.ToSingle(Ny)+100);
+ \end{lstlisting}
+\par A rajzolás pozicionálásához természetesen szükségünk van olyan konstans értékekre, amik csak azt adják meg, hogy nagyjából hova rajzoljunk, hiszen ha csak a szenzoradatra támaszkodnánk, akkor nem feltétlenül azzal az eredménnyel szembesülnénk, amire vártunk.
+\par Szükségesnek találtam még azt is, hogy feltüntessem a kísérlethez megfelelő vektorokat. Esetünkben, ha egy kísérlet szemléltetéséről van szó, akkor a lehető legtöbb információt megjelenítjük, segítve ezzel a felhasználót, hogy jobban megértse miről is van szó az adott ábrán. A mozgásnál fellépő, illetve az testre ható erők szemléltetése épp olyan fontos, mint maga az inka kirajzolása.
+\par Mellékeltem továbbá a rezgőmozgás ábrája mellé az egy tengelyre ható gyorsulás grafikont is, hisz mozgás közben ennek is fontos szerepe van, ha szemléltetésről beszélünk. Azonnal érthetőbb lesz a kísérletünk, bármely felhasználó számára, kisebb kiegészítésekkel.
+
+\section{Kliens alkalmazás}
+Mivel a szenzoradatok feldolgozását esetemben fizikai kísérletek végrehajtásához használnám fel, figyelembe kellett vennem, hogy ne legyen túlságosan hardverigényes a programom. Ezért is választottam a gyorsulásmérőt, mint szenzort, mivel az manapság szinte minden Androidos eszközben megtalálható, így nem kell abba időt, pénzt és energiát fektetnünk, hogy megfelelő eszközt találjunk, szinte minden eszköz megfelel számunkra. Az okostelefon tájolását tekintve nem kell nagy figyelmet fordítanom arra, hogy milyen irányban is van a telefon, ()amennyiben a programról beszélünk). Ellenben fontos,hogy hogy milyen kísérletet szeretnénk ábrázolni, megjeleníteni. Mégpedig azért fontos, mert a tengelyek, amiket használunk fix pozíción vannak, viszont ha telefont elfordítjuk, akkor a megfigyelt tengelyünk horizontális/vertikális állásból ellenkező állásba kerül. Így az adatok is máshogyan fognak megjelenítődni.
+\par A tervezésnél kialakítottam 2 Activity-t\footnote{Activity, más néven Form, azaz eg yoldalt jelent.}, az egyik a kapcsolódásra szolgál, a másik pedig a szenzoradatokat jeleníti meg, továbbá lehetőséget ad a szenzor mérési gyorsaságának beállítására és a filterezés beállítására. Igaz, a megjelenített oldalunkon nem lesz sok adat feltüntetve, de a háttérmunka, a számítások, pontosítások amiket a telefon végez, fontosabbak, mint az, hogy kinézetre milyen az alkalmazásunk.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Tengely: & Szenzor adat \\
+		\hline\hline
+		X: & -0,10534488  \\
+		\hline
+		Y: & 9,787497 \\
+		\hline
+		Z: & -1,091756 \\
+		\hline
+	\end{tabular}
+\end{center}
+\par Szükségünk lesz továbbá arra, hogy a mért szenzoradatokat némely esetben pontosítsuk, filterezzük. Erre csak pár kísérletnél van szükség, viszont ez éppen elég indok ahhoz, hogy lehetőséget biztosítsunk a felhasználónak a választásra a tiszta szenzoradatok és a pontosítottak között.
+\par Természetesen nem csak ezt az egy szenzort lehet kihasználni ilyen kísérletek végrehajtásához, szemléltetéséhez. Jó pár szenzor van még a telefonban mint például a Gyroscope, vagy akár a mikrofon, de még a kamerát is kihasználhatjuk valamilyen kísérlet bemutatásához, akár szabadesést szeretnénk szimulálni, vagy a hang terjedését kívánjuk szemléltetni.
+\par Az okostelefon szenzorokat is két külön csoportra bonthatjuk. Hardveres szenzor illetve Szoftveres szenzor. Ezek nevükből adódóan olyan szenzorok, melyek vagy be vannak építve a telefonba, vagy egy másik szenzort és egy kis szoftveres ügyeskedést felhasználva, szimuláljuk azt.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Szenzor: & Típus: \\
+		\hline\hline
+		Accelerometer / gyorsulásmérő & Hardver  \\
+		\hline
+		Környezeti hőmérséklet szenzor & Hardver \\
+		\hline
+		Gravitációs szenzor & Szoftver vagy Hardver \\
+		\hline
+		Gyroscope & Hardver \\
+		\hline
+		Fény szenzor & Hardver \\
+		\hline
+		Orientation / Tájolás & Szoftver \\
+		\hline
+	\end{tabular}
+\end{center}
+\pagebreak
+Az alkalmazást telefonos részről már akkor is tudjuk használni, ha még nem csatlakoztunk rá a szerverre. Ekkor persze csak a szenzoradatokat tudjuk megtekinteni a telefonon, de már ez is egy felhasználható dolog, valamely szempontból. Mindenek előtt ahhoz, hogy teljes mértékben használni tudjuk az alkalmazást, szükséges, hogy a klienssel rákapcsolódjunk a szerverre. Ilyenkor először is szerver oldalon le kell kérnünk a saját IP címünket, és meg kell adnunk egy Portot, amin keresztül majd csatlakozni szeretnénk. Ekkor csak annyi a dolgunk, hogy megnyomjuk a kapcsolódás gombot az alkalmazáson, és az automatikusan lekéri az IP címet. Ez után elő kell vennünk a kliens alkalmazást. A kliens layout-on szereplő EditText-ekbe be kell írnunk a megfelelő adatokat. Itt szintén egy IP címet és egy Port számot várunk el, mégpedig azokat, amiket a szerver oldal már lekért magának. Szükséges továbbá az, hogy a kliens és szerver is egyazon WiFi-re legyen rákapcsolódva.
+
+\par Abban az esetben, ha kliens oldalon esetleg elgépeljük az IP címet vagy Port számot, az alkalmazás még továbbenged, hogy megtekinthessük a szenzoradatokat, viszont az alkalmazás figyelmeztet, hogy "Nincs kapcsolat", tehát vagy nem megfelelő helyre kapcsolódtunk, vagy nincs internetelérés. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=6cm]{nincskapcsolat}
+	\caption{Nincs elérhető kapcsolat}\label{nincskapcsolat}
+\end{figure}
+
+Ezt az Activity alján egy egyszerű Label-be írjuk ki, hogy figyelmeztessük a felhasználót. A kapcsolódás gombra kattintva (a kliens oldalon), az alkalmazás leellenőrzi hogy képes-e kapcsolódni, van-e olyan "elérési út", azaz IP cím amire kapcsolódni szeretnénk. Ezt a folyamatot a felhasználó nem látja, csak a későbbiek folyamán kap egy visszajelzést, hogy sikerült-e kapcsolódni vagy sem.
+\par Abban az esetben, ha a szerver oldalon a kapcsolódást anélkül kíséreljük meg, hogy nincs elérhető internet kapcsolat, az alkalmazás erről is figyelmeztetést küld.
+\par A kapcsolódást követően megkezdődik a kommunikáció. Ilyenkor a kliens elkezdi küldeni a szenzoradatokat a szerver felé. Ilyenkor már használhatóvá válnak a form-ra felhelyezett eszközök. Megkezdhetünk egy kísérletet. A kliens oldalon elérhető Switch segítségével az adatokat tudjuk megváltoztatni. Vannak esetek, amikor szükségünk van szűrésre, de vannak olyanok, amikor nem. Ez a lehetőség erre ad választási módot. Ezen felül szerepel még három RadioButton. Ezek arra hivatottak hogy a szenzor gyorsaságát tudjuk beállítani. Ez azért jó, mert ha például az ingáról beszélünk, fontos, hogy minél több adatot kapjunk meg, amiből dolgozni tud a szerver oldal. Minél kevesebb ez az adat, annál pontatlanabb eredményt kapunk.
+\par A szerver oldalra visszatérve, a lehetőségeink tárháza elég nagy. A gyorsulás diagramon lehetőségünk van választani, hogy mely tengelyek gyorsulását szeretnénk látni. E mellett arra is van lehetőségünk, hogy a mobiltelefon aktuális pozícióját lementsük. Ez olyan kísérleteknél jöhet jól, ahol a kezdőállapottól függ a kísérlet végkimenetele.
+\par A szenzoradatok mellett a klienstől érkezik egy negyedik adat is, ez pedig az idő. Az idő, olyan értelemben, hogy az első küldött adattól számítva mennyi idő telik el. Ez fontos lehet például abban az esetben ha sebességet, vagy hosszt szeretnénk kiszámítani.
+\par Lehetőségünk van még továbbá arra is, hogy egy adott kísérlet során lementsük az adatokat. Ez a későbbi munkánkat tudja elősegíteni. Esetleg ha szeretnénk a későbbiekben felhasználni a kísérlet adatait, akkor ezek az adatok eltárolódnak egy TXT file-ba és a későbbiekben fel tudjuk azt használni.
+
+
+\section{Android Studio}
+A szerver oldalt követően a mobil alkalmazás fejlesztését is el kellett kezdenem. Ehhez én az Android Studio-t\footnote{Fejlesztői eszköz amit a Google adott ki} választottam. Itt alakítottam ki a kapcsolódáshoz szükséges képernyőt, a szenzoradat megjelenítő képernyőt és a fontosabb részeket. De még mielőtt belefolynánk ezen fejlesztői környezet szerepét, tisztáznunk kell pár lényegesebb dolgot, ami nem feltétlenül egyértelmű mindenki számára.
+\par Mi az hogy Android? Az Android napjaink egyik legsikeresebb mobil  operációsrendszere. Bizonyos statisztikák szerint több száz millió Android-alapú készülék van már a piacon és ez a szám egyre csak nő és nő. Naponta több száz-ezer készüléket aktiválnak. A rendszernek régen külön verziója létezett telefonkészülékekre és táblagépekre, ám 2012-ben megjelent a 4.0-s verzió, amely már egyesíti ezt a két külön ágazó útvonalat, így manapság már minden eszközön egyazon verzió fut.
+\par A platform népszerűségét nagyon sok tényezőnek köszönheti, melyek közt szerepel a kiemelkedően látványos felhasználói felület, a könnyű használhatóság, a nyíltság és a magas fokú kompatibilitás. Ám nem csak ezeknek köszönheti népszerűségét. Fontos szerepe van az operációs rendszert futtató készülékek hardverképességeinek, a gyors processzornak és a nagy méretű memóriának.
+\par Az androidon egyrészt magát a mobil operációsrendszert értjük, másrészt pedig a futtató eszközt. A Google 2005-ben felvásárolta az Android Incorporated nevű vállalatot és ezután saját maga kezdte el a fejlesztést, így részben az Android a Google fejlesztése.
+\par Az Android fejlesztését tekintve eléggé barátságos, ugyanis ingyenes és nyílt forráskódú az operációsrendszer. Hivatalosan az Open Handset Alliance konzorcium fejleszti és a Google a vezetője.
+\par Számos fejlesztői környezet adódik, az ismeretlenektől kezdve az ismertekig, ám én mégis az Android Studio-t választottam. Ennek legfőbb oka az lehet, hogy a barátságos megjelenését, emberbarát fájl struktúráját és azt a tényt, hogy már fejlesztettem benne, tartottam szem előtt.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Fejlesztői környezet & Előnye & Hátránya \\
+		\hline\hline
+		Android Studio & Ingyenes, nyílt forráskódok & Lassú buildelés\footnote{A kész programot futtatjuk az eszközön}  \\
+		\hline
+		Eclipse & "helyetted írja a kódot" & Nagy memória felhasználás\\
+		\hline
+		Visual Studio & Erőforrás mérés & Nem Androidra fejlesztették \\
+		\hline
+	\end{tabular}
+\end{center}
+\section{Az alkalmazás}
+Mint már említettem, a kliens alkalmazásom csak 2 képernyőt tartalmaz. Az elsődleges a kapcsolódáshoz szükséges adatokat kéri be (IP cím, Port), a második pedig a szenzor feldolgozást hajtja végre. Ez előbbi úgy történik, hogy felcsatlakozunk a WiFi-re a szerver alkalmazással, majd az általa kapott IP-címre rácsatlakozunk a kliens alkalmazással. Triviális tehát hogy elsőként a szerver alkalmazásnak kell futnia, csak utána tudunk csatlakozni a klienssel. Tehát miután beírtuk a megfelelő címet, melyre kapcsolódni szeretnénk, az alkalmazásunk továbbmegy a következő ablakra. A tényleges kapcsolódás itt történik, az előzőnél még csak elkértük a címet. Ez a lépés azért fontos, mert így a felhasználó anélkül is használhatja az alkalmazást, hogy lenne internet elérése. Ilyenkor az alkalmazás csak egy üzenetet küld, miszerint nem éri el a szerver oldalt, funkcióiban pedig közel ugyanazt nyújtja.
+\subsection{AsyncTask}
+Az AsyncTask egy olyan metódus, mely segítségével a háttérben futó időigényes feladatokat tudjuk megoldani. Ezt a programunk fő szálától elkülönítve tudjuk megtenni a segítségével, ugyanis a fő szálat (User Interface) nem állíthatjuk le hosszú időre, ilyenkor ugyanis semmiféle felhasználói utasításra nem reagál. Éppen ezért, ezeket a feladatokat a háttérben, egy background szálon kell futtatnunk. Tehát lényegében a felhasználói szál és a háttérben dolgozó szál egyszerre fut. Természetesen előfordul, hogy ezek időnként kommunikálnak. 
+\par Éppen ezért, a kapcsolat kezelését én egy AsyncTask metódus segítségével oldottam meg. Kicsit nehezítette a feladatot az is, hogy miközben a kapcsolat él, megállás nélkül kommunikálunk a szerverrel, így aztán a felhasználói felületnek néha bele-bele kell nyúlnia a másik szálba.
+\begin{lstlisting}
+protected Void doInBackground(Void... arg0) {
+try {
+    socket = new Socket(ipAddress,portN);
+    ByteArrayOutputStream byteArrayOutputStream =
+    new ByteArrayOutputStream(1024);
+    byte[] buffer = new byte[1024];
+    int bytesRead;
+    InputStream inputStream = socket.getInputStream();
+    while ((bytesRead = inputStream.read(buffer)) != -1){
+        byteArrayOutputStream.write(buffer, 0, bytesRead);
+        response += byteArrayOutputStream.toString("UTF-8");
+    }
+} catch (UnknownHostException e) {
+    e.printStackTrace();
+    response = "UnknownHostException: " + e.toString();
+} catch (IOException e) {
+    e.printStackTrace();
+    response = "IOException: " + e.toString();
+}finally{
+    if(socket != null){
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    return null;
+}
+\end{lstlisting}
+\par Az AsyncTask-nak is vannak beépített metódusai. A doInBackGround is egy ilyen metódus, de ezen felül is vannak hasonlóak. Ilyen például az onPostExecute, mely akkor hajtódik végre, ha például esetleg a kapcsolat megszakadt.
+\subsection{Low Pass Filter}
+A Low Pass Filter egy olyan filterezési megoldás, amely csak az olyan frekvenciájú jeleket engedi át, melyek kisebbek mint a bizonyos határfrekvenciák és csillapítja azokat a jeleket. Ezt más néven zajszűrésnek is nevezzük. Ez a csillapítás nagyban függ a filter használati módjától. A Low Pass Filter a High Pass Filter ellentettje (mint az egyértelmű is), továbbá létezik olyan hogy Band Pass Filter, ami a 2 filter kombinációja. Low Pass Filter-t a mi esetünkben opcionális választásként tüntettem fel. (Bizonyos esetben szükségünk van erre a pontosításra.)
+\par De hogy miből is áll ez pontosan? Androidos okostelefonoknál beszélünk bizonyos $9.6 m/s^2$ gravitációs erőről. Ennek konyhanyelven a lényege, hogy ez az erő mindig "ránehézkedik" a telefonra, így, a telefon pozíciójától függően, szétoszlik a tengelyeken. Van olyan eset amikor ez jó nekünk. Ilyen például az, amikor a telefont szeretnénk bepozicionálni gyorsulásmérővel. Ha ráengedjük a filtert, akkor tisztán a telefon gyorsulását kapjuk vissza, ami annyit jelent, hogy bárhogy fordítom el a telefont, ha az nincs mozgásban, minden tengelyére 0-t kapunk. Viszont, ha ezt a filtert nem engedjük rá a szenzorunkra, a gravitáció szétoszlik a tengelyeken, a telefon pozíciójától függően, és máris meg tudjuk állapítani, hogyan helyezkedik el a telefon.
+\par Mi történik akkor, ha a pozíció is és a telefon mozgása is kell nekünk? Abban az esetben, ha a telefont például egy ingaként szeretnénk használni, de csak a gyorsulásmérő szenzort kihasználva, ez egy picit nehezít a dolgunkat. Ugyanis igaz, hogy a gravitációval könnyebb pozicionálnunk, viszont amint megmozdul a telefon, függően attól hogy milyen gyorsan mozdult el, már más adatot kapunk. Abban az esetben viszont, ha lassú mozgásról van szó, szépen lekövethető így is. Mi van akkor, ha a mozgás gyors, mégis szeretnénk lekövetni? Ebben az esetben kell elővennünk a Low Pass Filter-t.
+\begin{lstlisting}
+alpha = 0.8F;
+//Megnezzuk, mennyi a gravitacio az
+//adott tengelyen es elmentjuk azt
+gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+//Levonjuk a gravitaciot az alap szenzoradatokbol
+linearAcceleration[0] = event.values[0] - gravity[0];
+linearAcceleration[1] = event.values[1] - gravity[1];
+linearAcceleration[2] = event.values[2] - gravity[2];
+\end{lstlisting}
+\par A fentebbi kód egy alapvető használata a Low Pass Filter-nek. A mi esetünkben ez kicsit módosul, hiszen nekünk babrálni kell a tengelyeken lévő adatokkal, ha megfelelően szeretnénk szemléltetni, mondjuk egy ingamozgást. Természetesen ha szeretnénk, babrálhatunk a filterrel önállóan is. Itt például konstansként vettük az $\alpha$ -t, de vannak olyan szituációk, amikor egy TimeStamp\footnote{Időbélyeg, milyen időpillanatban mértünk adatot, esetünkben}-et alkalmaznak, annak a régi és új értékét, így meghatározva azt.
+\par Abban az esetben, ha a kísérletünkhöz nincs szükségünk erre a filterre, a felhasználó ki tudja azt kapcsolni az alkalmazásban egy Switch\footnote{2 állású kapcsoló} segítségével, ez pedig nem igényel semmiféle kapcsolatbontást vagy újra kalibrálást.
+\section{Szenzoradat mérés}
+Android alkalmazásunkban a szenzoradatok mérése egy ciklikus, beépített függvény segítségével történik. Mindenek előtt be kell állítanunk az alkalmazás vagy Activity elindulásakor, hogy milyen szenzort szeretnénk használni adott esetben. Ehhez egy Listenerben be kell állítanunk hogy milyen szenzortípust szeretnénk használni. A mi esetünkben ez a: Sensor.TYPE ACCELEROMETER paraméterrel érhető el. E mellé a Listenerünkben meg kell még adnunk azt is, hogy mekkora legyen a szenzor úgymond "gyorsasága". Gyorsaság alatt itt azt értjük, hogy a szernzorunk milyen időközzel mérjen adatokat.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Sensor Delay & Jelentése\\
+		\hline\hline
+		FASTEST & A lehető leggyorsabban megkapjuk a szenzor adatot  \\
+		\hline
+		GAME & Játékokhoz legalkalmasabb ráta\\
+		\hline
+		NORMAL & Alapértelmezett, tájoláshoz a legalkalmasabb (képernyő) \\
+		\hline
+		UI & A felhasználói interfészhez legalkalmasabb \\
+		\hline
+	\end{tabular}
+\end{center}
+\par Ezeket a felhasználó, saját kényelmének megfelelően manuálisan is tudja állítani időközben, attól függően, milyen sebességgel szeretné mérni az adatokat. Miután a szenzoradatokat lekértük, egy SensorEvent típusú tömbből tudjuk azokat kinyerni mégpedig úgy, hogy a tömb elemei lesznek az egyes tengelyek értékei.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		X tengely & $SensorEvent.values[0]$  \\
+		\hline
+		Y tengely & $SensorEvent.values[1]$\\
+		\hline
+		Z tengely & $SensorEvent.values[2]$ \\
+		\hline
+	\end{tabular}
+\end{center}
+\par Ezek után már meg is kaptuk a gyönyörű, nyers adatainkat. Innentől kezdve már csak rajtunk áll, mit csinálunk vele.
+\subsection{Real Time adatátvitel}
+A RealTime adatátvitel lényege tehát az lenne a mi esetünkben, hogy abban a pillanatban, hogy lemértük az adatot, már küldjük is tovább. Ehhez természetesen szükségünk van azokra a lépésekre, amelyeket az előbbiekben megtettünk, tehát megszerezni a szenzoradatot, megnyitni a kapcsolatot a szerver felé, és felkészülni az adatátvitelre. Esetemben az, hogy élő legyen a kapcsolat, úgy oldódik meg, hogy ki-használom a szenzor mérés adta lehetőséget, vagyis azt, hogy a beépített függvényünk ciklikusan működik. Röviden: bármilyen adatváltozásnál újra lefut a függvény, természetesen ezred pontossággal. A megoldásom tehát az lett, hogy ebben a függvényben nem csak az adatmentést, pontosítást, filterezést végezzük, hanem egyben a szerverre való "írást" is. Tehát mihelyst lemérünk egy adatot a gyorsulásmérőből, PrintWriter\footnote{Az általunk használt kommunikációhoz szükséges eszköz} segítségével már küldjük is a szerver felé, ahol már úgy dolgozzuk fel ahogy szeretnénk.
+\par A PrintWriter-el való átküldés azonban nem olyan egyszerű, mint gondolnánk. Ugyanis az a probléma, hogy egyszerre kell elküldenünk mind a három adatot, mihelyst az lemérésre került, ellenkező esetben nem úgy fog alakulni az adatok érkezése mint vártuk, ugyanis ha minden egyes függvénybe lépéskor szeretnénk külön az X-et, Y-t és Z-t elküldeni, akkor lehetséges hogy még az előző adat megy át, vagy éppen a következő. Erre egy megoldás, hogy egy nagy darab String-ként, össze konkatenálva\footnote{Összefűzve} küldjük át a tengelyadatokat.
+\begin{lstlisting}
+printWriter.println(linearAcceleration[0]+" "+ linearAcceleration[1]+" "+linearAcceleration[2]);
+\end{lstlisting}
+\par Ebben az esetben, az adatok szerverre való megérkezésekor hasonló lesz a dolgunk, mint akkor, amikor az eszközön mért adatot szeretnénk kiszedni. Ezek után az eszközünknek már nincs más dolga, mint ismételgetni önmagát, addig amíg a kapcsolat meg nem szűnik, az alkalmazást be nem zárjuk, vagy valami hiba nem következik.
+
+
+
+
+\chapter{Fizikai kísérletek}
+
+\section{Kalibráció}
+
+A kalibrációs modul az egyik legfontosabb komponens. Az alkalmazás jelenlegi verziójában minden  egyes kísérlet előtt kalibrálni kell az eszközöket. A kalibrálást nem kötelező közvetlenül a kísérletezés előtt elvégezni, az alkalmazás képes a kalibrációs adatok mentésére. 
+A kalibrálási eljárás jelenleg mozgástípusonként különbözőképpen történik, de általánosan elmondható, hogy a szemléltetés előtt legalább kétszer kell a szemléltetendő kísérletet a kalibrációs folyamat részeként elvégezni. A két kalibráció által visszaadatott értékeket egyesével és a két vagy több kalibrálási mérést összességében is képes elemezi a szoftver.
+
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=10cm]{kalib}
+	\caption{Kalibráció}\label{kalib}
+\end{figure}
+
+
+\section{Exportálási lehetőségek}
+
+Az alkalmazás lehetőséget biztosít a kliensről érkező adatok mentésére. Az adatok menthetőek txt, csv, xls és xlsx fájlformátumokba. Ezzel lehetőség adódik egy külső alkalmazás (pl. MS excel) által a mért adatok további részletes analizálására.  
+
+\section{Egyenes vonalú, egyenletesen változó mozgás}
+
+Ennél a mozgásnál az alábbi értékek és összefüggések vizsgálatára van lehetőség.
+\begin{itemize}
+	\item lejtő dőlésszöge
+	\item pillanatnyi sebesség és gyorsulás
+	\item megtett út
+	\item eltelt idő
+	\item út-idő függvény
+	\item sebesség-idő függvény
+	\item gyorsulás-idő függvény
+\end{itemize}
+
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{EVEGYM_real}
+		\caption{Egyenes vonalú, egyenletesen változó mozgás}\label{EVEGYM1}
+	\end{figure}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{EVEGYM}
+		\caption{Egyenes vonalú, egyenletesen változó mozgás - futás közben}\label{EVEGYM2}
+	\end{figure}
+\pagebreak
+
+
+\section{Harmonikus rezgőmozgás}
+
+Ennél a mozgásnál az alábbi értékek és összefüggések vizsgálatára van lehetőség.
+
+\begin{itemize}
+	\item periódusidő
+	\item amplitúdó
+	\item rezgésszám
+	\item frekvencia
+	\item körfrekvencia
+	\item kitérés-idő függvény
+	\item sebesség-idő függvény
+	\item gyorsulás-idő függvény
+	\item csillapítási tényező
+	\item rúgóállandó statikus és dinamikus meghatározása
+\end{itemize}
+
+\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{harmon}
+		\caption{Harmonikus rezgőmozgás}\label{EVEGYM3}
+	\end{figure}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{harmonikus}
+		\caption{Harmonikus rezgőmozgás-futás közben}\label{inga1}
+	\end{figure}
+\pagebreak	
+	
+\section{Fizikai inga}
+Ennél a mozgásnál az alábbi értékek és összefüggések vizsgálatára van lehetőség.
+
+\begin{itemize}
+	\item lengésidő
+\end{itemize}
+
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{fizikai_inga}
+		\caption{Fizikai inga}\label{inga1}
+	\end{figure}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{ingamodell}
+		\caption{Fizikai inga-futás közben}\label{inga2}
+	\end{figure}
+	
+\pagebreak
+\section{Körmozgás}
+Ennél a mozgásnál az alábbi értékek és összefüggések vizsgálatára van lehetőség.
+
+\begin{itemize}
+	\item periódusidő 
+	\item szögsebesség
+	\item kerületi sebesség
+	\item frekvencia, fordulatszám
+	\item centripetális gyorsulás
+\end{itemize}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{kormozgas}
+		\caption{Körmozgás}\label{kor}
+	\end{figure}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{korkep}
+		\caption{Körmozgás}\label{kokep}
+	\end{figure}
+\pagebreak	
+
+\chapter{További tervek}
+További tervek között szerepel az alkalmazás további kísérletekkel történő bővítése. Felmerül a kérdés, hogy miért jobb ezt az alkalmazást és a telefont használni segédeszközként, mint pedig egy sima ingával tanítani továbbra is a hallgatókat, tanulókat? A válasz, amely bennem megfogalmazódott az, hogy amíg egy egyszerű kísérleti eszköz bemutatásával csak esetleg a mozgást tudjuk szemléltetni, addig az alkalmazással ugyan ezt végrehajtva olyan adatokhoz, információkhoz juthatunk, amelyekkel könnyebbé tehetjük a tanulást, tanítást.
+Jelenleg a számítógépen lévő alkalmazás Windows Form Application-ben íródott, ezt a jövőben szeretném lecserélni, még pedig Windows Presentation Foundation-re. Erre több szempontból is szükség lehet. Többek közt azért, mert igaz, hogy jelenleg még gyerekcipőben jár a projekt és a már megvalósított kísérleteket igen jól szemlélteti, de nincs meg animálva. Mivel a form-ra rajzolunk, minden egyes beérkezett adatnál, szükségünk van arra hogy mielőtt kirajzoljuk az új pozíciót, le is töröljük azt. Ennek az eredménye pedig az lesz, hogy enyhén "villogni" fog az ábránk. Ezt WPF\footnote{Windows Presentation Foundation}-ben ki tudjuk küszöbölni, hiszen ott úgy rajzolunk a felületre, hogy animáljuk azt, így okkal szebb prezentációt kapunk a kísérletre, mint az elődjénél.
+
+\chapter{Összefoglalás}
+Befejezésképpen összegezve a korábban leírtakat. Ehhez elevenítsük fel, az eredetileg megfogalmazott célokat.
+
+\begin{quote}
+	\it ,,...olyan Android alapú kliens applikáció, amely kapcsolatot tart egy szerveroldali alkalmazással. Ezeket a szenzoradatokat fizikai kísérletek megvalósítására, szemléltetésére használhatjuk fel, így a telefon egyfajta oktatási segédeszközzé válik."
+\end{quote}
+Ennek megfelelően a Visual Studio segítségével elkészítettük a szerveroldalt, amely tartja a kapcsolatot a mobil klienssel. Személy szerint elégedett vagyok és sok tapasztalatot szereztem ezen fejlesztői környezet használatával, mivel könnyedén el tudtam készíteni a szenzoradat feldolgozó rendszert.
+\par A szenzoradatok megértéséhez és azok megjelenítéséhez sokat kellett kutatni, és új dolgokat megtanulni.
+\par Azon kívül, hogy a kész alkalmazás már használható arra a célra, amire ki lett találva, el kellett gondolkodni a további fejlesztési lehetőségen is. Ez a téma, amit az első oldal óta boncolgattam számtalan irányból megközelíthető a továbbfejlesztést tekintve.
+\par Az első és legfontosabb dolog, ami a bővítést említve eszembe jut, az a fizikai kísérletekre vonatkozik. A keretrendszer "rugalmasságának" köszönhetően ezen kísérletek megvalósítása csak a fantáziánkon múlik. Lényegében ha a telefont egy szimpla segédeszköznek tekintenénk, mint (a példa kedvéért) akár egy labdát, akkor kapcsolatot létesítve le tudnánk szűrni az adatokat, amelyek a kísérlet során történnek anélkül, hogy a látottak alapján megtippelnénk azokat.
+\par Megközelíthetjük a fejlesztés ezen szakaszát szenzor oldalról is. Jelenleg az applikáció egyetlen szenzort használ, a gyorsulásmérőt. Mint már mondtam, ezt azért választottam, mert ez a szenzor található meg a telefonokban a leggyakrabban. Másrészt viszont, van még pár szenzor, amellyel más irányból is megközelíthetnénk ezeket a kísérletezéseket. Ilyen például a fényszenzor is. Tegyük fel, hogy valaki fénytani kísérleteket szeretne végrehajtani a telefon segítségével. Erre is van alkalmas szenzorunk, amellyel ezt akár meg is valósíthatjuk.
+\par Végül de nem utolsó sorban megköszönöm a témavezető tanáromnak a bátorítást és a támogatást. Köszönöm mindenkinek, akik segítettek, ha kérdésem volt.
+
+
+\begin{thebibliography}{1}
+\bibitem{cimke1} \textsc{J. A. Sans, F. J. Manjón, V. Cuenca-Gotor, M. H. Giménez-Valentín, I. Salinas, J. J. Barreiro, J. A. Monsoriu, and J. A. Gomez-Tejedor  Smartphone: a new device for teaching Physics  1st International Conference on Higher Education Advances, HEAd’15 Universitat Politècnica de València, València, 2015 DOI: }
+\url{http://ocs.editorial.upv.es/index.php/HEAD/HEAD15/paper/viewFile/332/211}
+\bibitem{cimke2} \textsc{Smartphones in the classroom 2: Teaching Physics }\\
+\url{https://opensignal.com/blog/2015/05/05/smartphones-in-the-classroom-2-teaching-physics/}
+\bibitem{cimke3} \textsc{Physics Education using a Smartphone Accelerometer Randall D. Peters Physics Department Mercer University, Macon, GA  }\\
+\url{http://arxiv.org/pdf/1012.3416.pdf}
+\bibitem{cimke4} \textsc{L. Martinez and P. Garaizar  Learning Physics down a slide: A set of experiments to measure reality through smartphone sensors Deusto Institute of Technology (DeustoTech), University of Deusto, Bilbao, Spain. }\\
+\url{http://paginaspersonales.deusto.es/garaizar/papers/EDUCON2014-LM-PG.pdf}
+\bibitem{cimk5} \textsc{Juan C. Castro-Palacio , Luisberis Velazquez , Jos´e A. G´omez-Tejedor , Francisco J. Manj´on , Juan A. Monsoriu Using a smartphone acceleration sensor to study uniform and uniformly accelerated circular motions 
+	Revista Brasileira de Ensino de F´ısica, v. 36, n. 2, 2315 (2014)}\\
+\url{http://ocs.editorial.upv.es/index.php/HEAD/HEAD15/paper/view/332/211}
+
+\bibitem{cimke6} \textsc{Gyorsulásmérő}:\\\url{https://hu.wikipedia.org/wiki/Gyorsulás}
+\bibitem{cimke7} \textsc{Gyorsulásmérők a fizikában}\\ \url{http://www.mogi.bme.hu/TAMOP/mikromechanika/math-ch05.html#ch-V.2}
+\bibitem{cimke8} \textsc{Harmonikus rezgőmozgás}\\
+\url{http://ecseri.puskas.hu/oktseged/mechanika/harmonikus_rezgomozgas.pdf}
+\bibitem{cimke9} \textsc{Szenzorok}\\
+\url{http://users.nik.uni-obuda.hu/malk/android/ea_2011_tavasz/08_-_Szenzorok.pdf}
+\bibitem{cimke10} \textsc{AsyncTask}\\
+\url{http://developer.android.com/reference/android/os/AsyncTask.html}
+
+
+
+
+
+\end{thebibliography}
+\end{document}
